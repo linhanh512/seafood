@@ -5,6 +5,11 @@ import domainapp.basics.model.meta.AttrRef;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.model.meta.DOpt;
 
+/**
+ * @overview represent a domestic seafood object (a subclass of Seafood)
+ * 
+ * @author Do Thi Thuy Linh
+ */
 @DClass(schema="seafoodman")
 public class DomesticSeafood extends Seafood{
 

@@ -6,6 +6,7 @@ import model.Country;
 import model.DomesticSeafood;
 import model.ForeignSeafood;
 import model.Seafood;
+import model.reports.SeafoodByNameReport;
 
 public class SeafoodManSoftware extends DomainAppToolSoftware{
 
@@ -13,8 +14,10 @@ public class SeafoodManSoftware extends DomainAppToolSoftware{
 		Seafood.class,
 		DomesticSeafood.class,
 		ForeignSeafood.class,
-		Country.class
+		Country.class,
+		SeafoodByNameReport.class
 	};
+	
 	public static void main(String[] args) throws NotPossibleException {
 		new SeafoodManSoftware().exec(args);
 	}

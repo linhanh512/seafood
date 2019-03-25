@@ -8,6 +8,11 @@ import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.util.Tuple;
 
+/**
+ * @overview represent a country (a ForeignSeafood's origin)
+ * 
+ * @author Do Thi Thuy Linh
+ */
 @DClass(schema="seafoodman")
 public class Country {
 	

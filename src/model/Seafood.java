@@ -8,15 +8,23 @@ import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.util.Tuple;
 
+/**
+ * @overview represent a Seafood object
+ * 
+ * @author Do Thi Thuy Linh
+ */
 @DClass(schema="seafoodman")
 public class Seafood {
 	
+	public static final String A_name = "name";
+	public static final String A_id = "id";
+	
 	//attribute
-	@DAttr(name="id",id=true,auto=true,type=Type.String,length=3,mutable=false,optional=false)
+	@DAttr(name=A_id,id=true,auto=true,type=Type.String,length=3,mutable=false,optional=false)
 	private String id;
 	private static int idCounter=0;
 	
-	@DAttr(name="name",type=Type.String,length=35,optional=false)
+	@DAttr(name=A_name,type=Type.String,length=35,optional=false)
 	private String name;
 	
 	//Constructors

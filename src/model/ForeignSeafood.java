@@ -1,6 +1,5 @@
 package model;
 
-import domainapp.basics.exceptions.ConstraintViolationException;
 import domainapp.basics.model.meta.AttrRef;
 import domainapp.basics.model.meta.DAssoc;
 import domainapp.basics.model.meta.DAttr;
@@ -11,18 +10,22 @@ import domainapp.basics.model.meta.DAssoc.Associate;
 import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 
+/**
+ * @overview represent a foreign seafood object (a subclass of Seafood)
+ * 
+ * @author Do Thi Thuy Linh
+ */
 @DClass(schema="seafoodman")
 public class ForeignSeafood extends Seafood{
 	
-	@DAttr(name="name",type=Type.Domain,length=35,optional=false)
+	@DAttr(name="country",type=Type.Domain,length=6,optional=false)
 	@DAssoc(ascName="foreign-seafood-has-country",role="country",
 	ascType=AssocType.One2One, endType=AssocEndType.One,
-	associate=@Associate(type=Country.class,cardMin=1,cardMax=1,determinant=true))
+	associate=@Associate(type=Country.class,cardMin=1,cardMax=1))
 	private Country country;
 
 	@DOpt(type=DOpt.Type.DataSourceConstructor)
-	public ForeignSeafood(@AttrRef("id") String id, @AttrRef("name") String name, 
-			@AttrRef("country") Country country) throws ConstraintViolationException {
+	public ForeignSeafood(String id, String name,Country country) {
 		super(id, name);
 		this.country = country;
 	}
