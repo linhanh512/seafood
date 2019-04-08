@@ -214,14 +214,6 @@ public class SeafoodByNameReport {
 	    return true;
 	  }
 
-	  /* (non-Javadoc)
-	   * @see java.lang.Object#toString()
-	   */
-	  /**
-	   * @effects 
-	   * 
-	   * @version 
-	   */
 	  @Override
 	  public String toString() {
 	    return "SeafoodByNameReport (" + id + ", " + name + ")";

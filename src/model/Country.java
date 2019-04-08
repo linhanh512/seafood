@@ -1,9 +1,16 @@
 package model;
 
+import java.util.Collection;
 import domainapp.basics.exceptions.ConstraintViolationException;
 import domainapp.basics.model.meta.AttrRef;
+import domainapp.basics.model.meta.DAssoc;
 import domainapp.basics.model.meta.DAttr;
 import domainapp.basics.model.meta.DOpt;
+import domainapp.basics.model.meta.MetaConstants;
+import domainapp.basics.model.meta.Select;
+import domainapp.basics.model.meta.DAssoc.AssocEndType;
+import domainapp.basics.model.meta.DAssoc.AssocType;
+import domainapp.basics.model.meta.DAssoc.Associate;
 import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.util.Tuple;
@@ -23,6 +30,14 @@ public class Country {
 	
 	@DAttr(name="name",type=Type.String,length=35,optional=false)
 	private String name;
+	
+	@DAttr(name="foreign-seafood",type=Type.Collection,serialisable=false,optional=false,
+	filter=@Select(clazz=ForeignSeafood.class))
+	@DAssoc(ascName="foreign-seafood-has-country",role="country",
+	ascType=AssocType.One2Many,endType=AssocEndType.One,
+	associate=@Associate(type=ForeignSeafood.class,
+	cardMin=1,cardMax=MetaConstants.CARD_MORE))  
+	private Collection<ForeignSeafood> fseafoods;
 	
 	@DOpt(type=DOpt.Type.DataSourceConstructor)
 	public Country(@AttrRef("id") Integer id, @AttrRef("name") String name) {
@@ -74,12 +89,20 @@ public class Country {
 		this.name = name;
 	}
 	
+	public void setFSeafoods(Collection<ForeignSeafood> fseafoods) {
+		this.fseafoods = fseafoods;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public Collection<ForeignSeafood> getFSeafoods(){
+		return fseafoods;
 	}
 	
 	@Override

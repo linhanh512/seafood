@@ -2,11 +2,16 @@ package model;
 
 import domainapp.basics.exceptions.ConstraintViolationException;
 import domainapp.basics.model.meta.AttrRef;
+import domainapp.basics.model.meta.DAssoc;
 import domainapp.basics.model.meta.DAttr;
 import domainapp.basics.model.meta.DOpt;
+import domainapp.basics.model.meta.DAssoc.AssocEndType;
+import domainapp.basics.model.meta.DAssoc.AssocType;
+import domainapp.basics.model.meta.DAssoc.Associate;
 import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.util.Tuple;
+import model.reports.SeafoodByNameReport;
 
 /**
  * @overview represent a Seafood object
@@ -18,6 +23,8 @@ public class Seafood {
 	
 	public static final String A_name = "name";
 	public static final String A_id = "id";
+//	public static final String A_bill = "bill";
+	public static final String A_rpt = "rptSeafoodByName";
 	
 	//attribute
 	@DAttr(name=A_id,id=true,auto=true,type=Type.String,length=3,mutable=false,optional=false)
@@ -26,6 +33,15 @@ public class Seafood {
 	
 	@DAttr(name=A_name,type=Type.String,length=35,optional=false)
 	private String name;
+	
+//	@DAttr(name=A_bill,type=Type.Domain,length=6,optional=false)
+//	@DAssoc(ascName="bill-has-seafood",role="seafood",
+//	ascType=AssocType.One2Many, endType=AssocEndType.Many,
+//	associate=@Associate(type=SeafoodBill.class,cardMin=1,cardMax=1))
+//	private SeafoodBill bill;
+	
+	@DAttr(name=A_rpt,type=Type.Domain, serialisable=false,virtual=true)
+	private SeafoodByNameReport rptSeafoodByName;
 	
 	//Constructors
 	//Constructor with id and name
@@ -48,12 +64,24 @@ public class Seafood {
 		this.name = name;
 	}
 	
+//	public void setBill(SeafoodBill bill) {
+//		this.bill = bill;
+//	}
+	
 	public String getId() {
 		return id;
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+//	public SeafoodBill getBill() {
+//		return bill;
+//	}
+	
+	public SeafoodByNameReport getRptSeafoodByName() {
+		return rptSeafoodByName;
 	}
 	
 	// override toString

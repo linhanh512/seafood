@@ -19,7 +19,7 @@ import domainapp.basics.model.meta.DClass;
 public class ForeignSeafood extends Seafood{
 	
 	@DAttr(name="country",type=Type.Domain,length=6,optional=false)
-	@DAssoc(ascName="foreign-seafood-has-country",role="country",
+	@DAssoc(ascName="foreign-seafood-has-country",role="foreign-seafood",
 	ascType=AssocType.One2One, endType=AssocEndType.One,
 	associate=@Associate(type=Country.class,cardMin=1,cardMax=1))
 	private Country country;

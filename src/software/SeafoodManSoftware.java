@@ -6,6 +6,7 @@ import model.Country;
 import model.DomesticSeafood;
 import model.ForeignSeafood;
 import model.Seafood;
+import model.SeafoodBill;
 import model.reports.SeafoodByNameReport;
 
 public class SeafoodManSoftware extends DomainAppToolSoftware{
