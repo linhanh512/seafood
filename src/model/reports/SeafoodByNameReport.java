@@ -46,7 +46,7 @@ public class SeafoodByNameReport {
 	@DAttr(name="Seafoods",type=Type.Collection,optional=false, mutable=false,
 	serialisable=false,filter=@Select(clazz=Seafood.class, 
 	attributes={Seafood.A_id, Seafood.A_name}),derivedFrom={"name"})
-	@DAssoc(ascName="seafood-by-name-report-has-seafood",role="report",
+	@DAssoc(ascName="seafood-by-name-report-has-seafood",role="seafood-by-name-report",
 	ascType=AssocType.One2Many,endType=AssocEndType.One,
 	associate=@Associate(type=Seafood.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
 	@Output

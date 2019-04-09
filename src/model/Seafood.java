@@ -5,6 +5,7 @@ import domainapp.basics.model.meta.AttrRef;
 import domainapp.basics.model.meta.DAssoc;
 import domainapp.basics.model.meta.DAttr;
 import domainapp.basics.model.meta.DOpt;
+import domainapp.basics.model.meta.MetaConstants;
 import domainapp.basics.model.meta.DAssoc.AssocEndType;
 import domainapp.basics.model.meta.DAssoc.AssocType;
 import domainapp.basics.model.meta.DAssoc.Associate;
@@ -41,6 +42,9 @@ public class Seafood {
 //	private SeafoodBill bill;
 	
 	@DAttr(name=A_rpt,type=Type.Domain, serialisable=false,virtual=true)
+	@DAssoc(ascName="seafood-has-seafood-by-name-report",role="seafood",
+	ascType=AssocType.One2Many,endType=AssocEndType.One,
+	associate=@Associate(type=Seafood.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
 	private SeafoodByNameReport rptSeafoodByName;
 	
 	//Constructors
