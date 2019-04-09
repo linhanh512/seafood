@@ -14,6 +14,7 @@ import domainapp.basics.model.meta.DClass;
 import domainapp.basics.util.Tuple;
 import model.reports.SeafoodByNameReport;
 
+
 /**
  * @overview represent a Seafood object
  * 
@@ -32,7 +33,7 @@ public class Seafood {
 	private String id;
 	private static int idCounter=0;
 	
-	@DAttr(name=A_name,type=Type.String,length=35,optional=false)
+	@DAttr(name=A_name,type=Type.String,length=25,optional=false)
 	private String name;
 	
 //	@DAttr(name=A_bill,type=Type.Domain,length=6,optional=false)
@@ -41,16 +42,15 @@ public class Seafood {
 //	associate=@Associate(type=SeafoodBill.class,cardMin=1,cardMax=1))
 //	private SeafoodBill bill;
 	
-	@DAttr(name=A_rpt,type=Type.Domain, serialisable=false,virtual=true)
-	@DAssoc(ascName="seafood-has-seafood-by-name-report",role="seafood",
-	ascType=AssocType.One2Many,endType=AssocEndType.One,
-	associate=@Associate(type=Seafood.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
+	@DAttr(name=A_rpt,type=Type.Domain, serialisable=false, 
+		      // IMPORTANT: set virtual=true to exclude this attribute from the object state
+		      // (avoiding the view having to load this attribute's value from data source)
+		      virtual=true)
 	private SeafoodByNameReport rptSeafoodByName;
 	
 	//Constructors
 	//Constructor with id and name
-	@DOpt(type=DOpt.Type.ObjectFormConstructor)
-	@DOpt(type=DOpt.Type.RequiredConstructor)
+	@DOpt(type=DOpt.Type.DataSourceConstructor)
 	public Seafood(@AttrRef("id") String id, @AttrRef("name") String name)
 	throws ConstraintViolationException{
 		this.id = nextID(id);
@@ -62,6 +62,10 @@ public class Seafood {
 	@DOpt(type=DOpt.Type.RequiredConstructor)
 	public Seafood(@AttrRef("name") String name) {
 		this(null,name);
+	}
+	
+	public SeafoodByNameReport getRptSeafoodByName() {
+		return rptSeafoodByName;
 	}
 	
 	public void setName(String name) {
@@ -84,9 +88,6 @@ public class Seafood {
 //		return bill;
 //	}
 	
-	public SeafoodByNameReport getRptSeafoodByName() {
-		return rptSeafoodByName;
-	}
 	
 	// override toString
 	/**

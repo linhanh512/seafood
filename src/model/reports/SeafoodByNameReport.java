@@ -2,7 +2,6 @@ package model.reports;
 
 import java.util.Collection;
 import java.util.Map;
-
 import domainapp.basics.core.dodm.dsm.DSMBasic;
 import domainapp.basics.core.dodm.qrm.QRM;
 import domainapp.basics.exceptions.DataSourceException;
@@ -43,10 +42,10 @@ public class SeafoodByNameReport {
 	private String name;
 	
 	//output: seafood whose names match
-	@DAttr(name="Seafoods",type=Type.Collection,optional=false, mutable=false,
+	@DAttr(name="seafoods",type=Type.Collection,optional=false, mutable=false,
 	serialisable=false,filter=@Select(clazz=Seafood.class, 
-	attributes={Seafood.A_id, Seafood.A_name}),derivedFrom={"name"})
-	@DAssoc(ascName="seafood-by-name-report-has-seafood",role="seafood-by-name-report",
+	attributes={Seafood.A_id, Seafood.A_name,Seafood.A_rpt}),derivedFrom={"name"})
+	@DAssoc(ascName="Seafood-by-name-report-has-Seafood",role="report",
 	ascType=AssocType.One2Many,endType=AssocEndType.One,
 	associate=@Associate(type=Seafood.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
 	@Output
@@ -214,6 +213,14 @@ public class SeafoodByNameReport {
 	    return true;
 	  }
 
+	  /* (non-Javadoc)
+	   * @see java.lang.Object#toString()
+	   */
+	  /**
+	   * @effects 
+	   * 
+	   * @version 
+	   */
 	  @Override
 	  public String toString() {
 	    return "SeafoodByNameReport (" + id + ", " + name + ")";
