@@ -21,46 +21,46 @@ import model.Customer;
 /**
  * @overview represent a country (a ForeignSeafood's origin)
  * 
- * @author Do Thi Thuy Linh
+ * @author Nguyen Thanh Tung
  */
 @DClass(schema = "seafoodman")
-public class Country {
+public class TypeOfSeafood {
 	
 	// attributes
 	@DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 3, mutable = false, optional = false)
 	private int id;
 	private static int idCounter = 0;
 
-	@DAttr(name = "name", type = Type.String, length = 35, optional = false)
+	@DAttr(name = "name", type = Type.String, length = 20, optional = false)
 	private String name;
 
-	@DAttr(name="customer",type=Type.Domain,serialisable=false)
-	@DAssoc(ascName="customer-has-country",role="country",
+	@DAttr(name="seafood",type=Type.Domain,serialisable=false)
+	@DAssoc(ascName="seafood-has-type",role="type",
 	ascType=AssocType.One2Many, endType=AssocEndType.One,
-	associate=@Associate(type=Customer.class,cardMin=1,cardMax=MetaConstants.CARD_MORE))
-	private Collection<Customer> customers;
+	associate=@Associate(type=Seafood.class,cardMin=1,cardMax=MetaConstants.CARD_MORE))
+	private Collection<Seafood> seafoods;
 
 	@DOpt(type = DOpt.Type.DataSourceConstructor)
-	public Country(@AttrRef("id") Integer id, @AttrRef("name") String name) {
+	public TypeOfSeafood(@AttrRef("id") Integer id, @AttrRef("name") String name) {
 		this(id, name, null);
 	}
 
 	@DOpt(type = DOpt.Type.ObjectFormConstructor)
-	public Country(@AttrRef("name") String name, @AttrRef("customer") Collection<Customer> customer) {
-		this(null, name, customer);
+	public TypeOfSeafood(@AttrRef("name") String name, @AttrRef("seafood") Collection<Seafood> seafood) {
+		this(null, name, seafood);
 	}
 
 	// Constructor with name only
 	@DOpt(type = DOpt.Type.ObjectFormConstructor)
 	@DOpt(type = DOpt.Type.RequiredConstructor)
-	public Country(@AttrRef("name") String name) {
+	public TypeOfSeafood(@AttrRef("name") String name) {
 		this(null, name, null);
 	}
 
-	private Country(Integer id, String cityName, Collection<Customer> customer) {
+	private TypeOfSeafood(Integer id, String type, Collection<Seafood> seafood) {
 		this.id = nextId(id);
-		this.name = cityName;
-		customers = new ArrayList<>();
+		this.name = type;
+		seafoods = new ArrayList<>();
 	}
 
 	private static int nextId(Integer currID) {
@@ -104,18 +104,18 @@ public class Country {
 		return name;
 	}
 
-	public Collection<Customer> getCustomer() {
-		return customers;
+	public Collection<Seafood> getSeafood() {
+		return seafoods;
 	}
 	
 	@DOpt(type = DOpt.Type.LinkAdderNew)
-	public void setNewCustomer(Collection<Customer> customer) {
-		this.customers = customer;
+	public void setNewSeafood(Collection<Seafood> seafood) {
+		this.seafoods = seafood;
 		// do other updates here (if needed)
 	}
 
-	public void setCustomer(Collection<Customer> customer) {
-		this.customers = customer;
+	public void setSeafood(Collection<Seafood> seafood) {
+		this.seafoods = seafood;
 	}
 	
 

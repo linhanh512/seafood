@@ -8,6 +8,7 @@ import model.DomesticSeafood;
 import model.ForeignSeafood;
 import model.Purchaser;
 import model.Seafood;
+import model.TypeOfSeafood;
 import model.reports.*;
 import model.reports.CustomerByNameReport;
 import model.reports.SeafoodByNameReport;
@@ -31,6 +32,7 @@ public class SeafoodManSoftware extends DomainAppToolSoftware {
       Purchaser.class,
       DomesticSeafood.class,
       ForeignSeafood.class,
+      TypeOfSeafood.class,
       // reports
       SeafoodByNameReport.class,
       CustomerByNameReport.class

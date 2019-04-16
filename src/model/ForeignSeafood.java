@@ -25,14 +25,14 @@ public class ForeignSeafood extends Seafood{
 	private Country country;
 
 	@DOpt(type=DOpt.Type.DataSourceConstructor)
-	public ForeignSeafood(String id, String name,Country country) {
-		super(id, name);
+	public ForeignSeafood(String id, String name,Country country,double weight,double price, TypeOfSeafood type) {
+		super(id, name,weight,price,type);
 		this.country = country;
 	}
 	
 	@DOpt(type=DOpt.Type.ObjectFormConstructor)
-	public ForeignSeafood(@AttrRef("name") String name, @AttrRef("country") Country country) {
-		this(null,name,country);
+	public ForeignSeafood(@AttrRef("name") String name, @AttrRef("weight") double weight,@AttrRef("price") double price,@AttrRef("country") Country country,@AttrRef("type") TypeOfSeafood type ) {
+		this(null,name,country,weight,price, type);
 	}
 	
 	public void setCountry(Country country) {
