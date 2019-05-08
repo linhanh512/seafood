@@ -12,6 +12,7 @@ import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.util.Tuple;
 import model.reports.SeafoodByNameReport;
+import model.OrderRow;
 
 /**
  * @overview represent a Seafood object
@@ -19,12 +20,10 @@ import model.reports.SeafoodByNameReport;
  * @author Do Thi Thuy Linh
  */
 @DClass(schema="seafoodman")
-public class Seafood {
+public abstract class Seafood {
 	
 	public static final String A_name = "name";
 	public static final String A_id = "id";
-	public static final String A_weight = "weight";
-	public static final String A_price = "price";
 	public static final String A_type = "type";
 	public static final String A_rptSeafoodByName = "rptSeafoodByName";
 	
@@ -35,71 +34,86 @@ public class Seafood {
 	
 	@DAttr(name=A_name,type=Type.String,length=20,optional=false)
 	private String name;
-	@DAttr(name=A_weight,type=Type.Double,length=5,optional=false)
-	private double weight;
+	
 	@DAttr(name=A_type,type=Type.Domain, length = 15, optional =true)
-	@DAssoc(ascName="seafood-has-type",role="seafood",ascType=AssocType.One2One, endType = AssocEndType.One,associate = @Associate(type=TypeOfSeafood.class,cardMin=1, cardMax=1))
+	@DAssoc(ascName="seafood-has-type",role="seafood",
+	ascType=AssocType.One2One, endType = AssocEndType.One,
+	associate = @Associate(type=TypeOfSeafood.class,cardMin=1, cardMax=1))
 	private TypeOfSeafood type;
-	@DAttr(name=A_price,type=Type.Double,length=5,optional=false)
-	private double price;
+	
 	@DAttr(name = A_rptSeafoodByName, type = Type.Domain, serialisable = false,
 			// IMPORTANT: set virtual=true to exclude this attribute from the object state
 			// (avoiding the view having to load this attribute's value from data source)
 			virtual = true)
 	private SeafoodByNameReport rptSeafoodByName;
 	
-	//Constructors
-	//Constructor with id and name
+	@DAttr(name="order",type=Type.Domain,length=6)
+	@DAssoc(ascName="order-has-seafood",role="seafood",
+	ascType=AssocType.One2One, endType=AssocEndType.One,
+	associate=@Associate(type=OrderRow.class,cardMin=1,cardMax=1))
+	private OrderRow order;
 	
-	
-	//Constructor with name only
+	//Constructor without id, order
 	@DOpt(type=DOpt.Type.RequiredConstructor)
 	@DOpt(type=DOpt.Type.ObjectFormConstructor)
-	public Seafood(@AttrRef("name") String name, @AttrRef("weight") double weight, @AttrRef("price") double price, @AttrRef("type") TypeOfSeafood type) {
-		this(null,name,weight,price,type);
+	public Seafood(@AttrRef("name") String name, @AttrRef("type") TypeOfSeafood type) {
+		this(null,name,type,null);
+	}
+	
+	@DOpt(type=DOpt.Type.ObjectFormConstructor)
+	public Seafood(@AttrRef("name") String name, @AttrRef("type") TypeOfSeafood type,
+			@AttrRef("order") OrderRow order) {
+		this(null,name,type,order);
 	}
 	
 	@DOpt(type = DOpt.Type.DataSourceConstructor)
-	public Seafood(@AttrRef("id") String id, @AttrRef("name") String name,@AttrRef("weight") double weight, @AttrRef("price") double price, @AttrRef("type") TypeOfSeafood type)
-	throws ConstraintViolationException{
+	public Seafood(@AttrRef("id") String id, @AttrRef("name") String name, @AttrRef("type") TypeOfSeafood type) {
+		this(id,name,type,null);
+	}
+	
+	private Seafood(@AttrRef("id") String id, @AttrRef("name") String name, 
+			@AttrRef("type") TypeOfSeafood type,@AttrRef("order") OrderRow order)
+			throws ConstraintViolationException{
 		this.id = nextID(id);
 		this.name = name;
-		this.weight = weight;
-		this.price = price;
 		this.type = type;
+		this.order = order;
 	}
+	
 	public SeafoodByNameReport getRptSeafoodByName() {
 		return rptSeafoodByName;
 	}
+	
 	//setter
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
+
 	public void setType(TypeOfSeafood type) {
 		this.type = type;
 	}
+	
+	public void setOrder(OrderRow order) {
+		this.order = order;
+	}
+	
 	//getter
 	public String getId() {
 		return id;
 	}
-	public double getWeight() {
-		return weight;
-	}
+	
 	public String getName() {
 		return name;
 	}
-	public double getPrice() {
-		return price;
-	}
+	
 	public TypeOfSeafood getType() {
 		return type;
 	}
+	
+	public OrderRow getOrder() {
+		return order;
+	}
+
 	// override toString
 	/**
 	* @effects returns <code>this.id</code>
@@ -114,7 +128,7 @@ public class Seafood {
 	*/
 	public String toString(boolean full) {
 		if (full)
-			return "Seafood(" + id + ", " +", "+ name +", "+ weight+", "+price+", "+type+")";
+			return "Seafood(" + id + ", "+ name + ")";
 	    else
 	    	return "Seafood(" + id + ")";
 	}

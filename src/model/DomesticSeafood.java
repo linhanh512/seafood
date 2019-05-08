@@ -14,14 +14,18 @@ import domainapp.basics.model.meta.DOpt;
 public class DomesticSeafood extends Seafood{
 
 	@DOpt(type=DOpt.Type.DataSourceConstructor)
-	public DomesticSeafood(@AttrRef("id") String id, @AttrRef("name") String name,@AttrRef("weight") double weight,@AttrRef("price") double price, TypeOfSeafood type) 
+	public DomesticSeafood(@AttrRef("id") String id, @AttrRef("name") String name, TypeOfSeafood type) 
 			throws ConstraintViolationException {
-		super(id, name,weight,price, type);
+		super(id, name, type);
 	}
 	
 	@DOpt(type=DOpt.Type.ObjectFormConstructor)
-	public DomesticSeafood(@AttrRef("name") String name,@AttrRef("weight") double weight,@AttrRef("price") double price,@AttrRef("type") TypeOfSeafood type) {
-		super(null,name,weight,price,type);
+	public DomesticSeafood(@AttrRef("name") String name,@AttrRef("type") TypeOfSeafood type) {
+		super(null,name,type);
 	}
 
+	@DOpt(type=DOpt.Type.ObjectFormConstructor)
+	public DomesticSeafood(@AttrRef("name") String name,@AttrRef("type") TypeOfSeafood type, OrderRow order) {
+		super(name,type,order);
+	}
 }

@@ -2,23 +2,15 @@ package software;
 
 import domainapp.basics.exceptions.NotPossibleException;
 import domainapp.basics.software.DomainAppToolSoftware;
-import model.Country;
-import model.Customer;
-import model.DomesticSeafood;
-import model.ForeignSeafood;
-import model.Purchaser;
-import model.Seafood;
-import model.TypeOfSeafood;
+import model.*;
 import model.reports.*;
-import model.reports.CustomerByNameReport;
-import model.reports.SeafoodByNameReport;
 
 
 /**
  * @overview 
  *  Encapsulate the basic functions for setting up and running a software given its domain model.  
  *  
- * @author 
+ * @author dmle
  *
  * @version 
  */
@@ -26,13 +18,15 @@ public class SeafoodManSoftware extends DomainAppToolSoftware {
   
   // the domain model of software
   private static final Class[] model = {
-      Seafood.class,
+      Seafood.class, 
+      DomesticSeafood.class, 
+      ForeignSeafood.class, 
       Country.class, 
-      Customer.class,
-      Purchaser.class,
-      DomesticSeafood.class,
-      ForeignSeafood.class,
       TypeOfSeafood.class,
+      OrderTable.class,
+      OrderRow.class,
+      Customer.class, 
+//      Purchaser.class,
       // reports
       SeafoodByNameReport.class,
       CustomerByNameReport.class

@@ -1,9 +1,8 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import domainapp.basics.exceptions.ConstraintViolationException;
 import domainapp.basics.model.meta.AttrRef;
 import domainapp.basics.model.meta.DAssoc;
@@ -14,7 +13,7 @@ import domainapp.basics.model.meta.DAttr;
 import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.model.meta.DOpt;
-import domainapp.basics.model.meta.Select;
+import domainapp.basics.model.meta.MetaConstants;
 import domainapp.basics.util.Tuple;
 import model.Country;
 import model.reports.CustomerByNameReport;
@@ -23,7 +22,7 @@ import model.reports.CustomerByNameReport;
  * Represents a customer. The customer ID is auto-incremented
  * 
  * @author
- * @version 2.0
+ * Nguyen Thanh Tung
  */
 @DClass(schema = "seafoodman")
 public class Customer {
@@ -33,6 +32,8 @@ public class Customer {
 	public static final String A_address = "address";
 	public static final String A_email = "email";
 	public static final String A_rptCustomerByName = "rptCustomerByName";
+	public static final String A_bill = "bill";
+	
 	// attributes of customers
 	@DAttr(name = A_id, id = true, type = Type.String, auto = true, length = 6, mutable = false, optional = false)
 	private String id;
@@ -57,10 +58,8 @@ public class Customer {
 			// (avoiding the view having to load this attribute's value from data source)
 			virtual = true)
 	private CustomerByNameReport rptCustomerByName;
+	
 	// constructor methods
-
-	
-	
 	@DOpt(type = DOpt.Type.RequiredConstructor)
 	@DOpt(type = DOpt.Type.ObjectFormConstructor)
 	public Customer(@AttrRef("name") String name, @AttrRef("phone") String phone, @AttrRef("address") Country address,
@@ -76,11 +75,18 @@ public class Customer {
 		this.id = nextID(id);
 
 		// assign other values
-		this.name = name;
-		this.phone = phone;
-		this.address = address;
-		this.email = email;
-
+		if(validateName(name)&&validateEmail(email)&&validatePhone(phone)&&validateAddress(address)) {
+			this.name = name;
+			this.phone = phone;
+			this.address = address;
+			this.email = email;
+		}else {
+			this.name = null;
+			this.phone = null;
+			this.address = null;
+			this.email = null;
+		}
+//		this.bill = bill;
 	}
 	
 	public CustomerByNameReport getRptCustomerByName() {
@@ -93,7 +99,7 @@ public class Customer {
 		this.name = name;
 	}
 
-	public void setDob(String phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -104,11 +110,10 @@ public class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	/**
-	 * @effects computes {@link #averageMark} of all the
-	 *          {@link Enrolment#getFinalMark()}s (in {@link #enrolments}.
-	 */
+	
+//	public void setBill(Collection<SeafoodBill> bill) {
+//		this.bill = bill;
+//	}
 
 	// getter methods
 	public String getId() {
@@ -130,7 +135,94 @@ public class Customer {
 	public String getEmail() {
 		return email;
 	}
+	
+//	public Collection<SeafoodBill> getBill(){
+//		return bill;
+//	}
 
+	//validator
+	private boolean validateName(String name) {
+		Pattern pattern;
+		Matcher matcher;
+		
+		String CUSTOMERNAME_PATTERN = "^[\\p{L}]{2,50}$";
+		
+		pattern = Pattern.compile(CUSTOMERNAME_PATTERN);
+		matcher = pattern.matcher(name);
+		
+		if(!matcher.matches()) {
+			System.err.println("The name must have between 2 and 50 characters and contain letters only!");
+		}
+		return matcher.matches();
+	}
+	
+	private boolean validateEmail(String email) {
+		Pattern pattern;
+		Matcher matcher;
+		
+		String EMAIL_PATTERN = "^[\\p{L}0-9@._]{10,75}$";
+		
+		pattern = Pattern.compile(EMAIL_PATTERN);
+		matcher = pattern.matcher(email);
+		
+		if(!matcher.matches()) {
+			System.err.println("The email must have between 10 and 75 characters and must not contain special characters!");
+			return false;
+		}
+		
+		//cut email into 2 parts by @ sign
+		String[] emailDetail = email.split("@");
+		
+		//more than 2 @ in email string -> error
+		if(emailDetail.length>2) {
+			return false;
+		}
+		
+		//validate first part of email address (before @)
+		pattern = Pattern.compile("^[\\\\p{L}0-9._]{10,65}$");
+		matcher = pattern.matcher(emailDetail[0]);
+		if(!matcher.matches()) {
+			System.err.println("The username of email must have 10-65 characters and contains letters, numbers, dots and underscores");
+			return false;
+		}
+		
+		//validate second part of email address (after @)
+		if(!emailDetail[1].contains(".com")||!emailDetail[1].contains(".vn")) {
+			System.err.println("An email address must end with .com or .vn!");
+			return false;
+		}
+		
+		//no mistake, return true
+		return true;
+	}
+	
+	private boolean validateAddress(Country add) {
+		if(add.equals(null)) {
+			return false;
+		}
+		return true;
+	}
+	private boolean validatePhone(String phone) {
+		
+		//start with number 0
+		if(!phone.startsWith("0")) {
+			return false;
+		}
+		
+		Pattern pattern;
+		Matcher matcher;
+		
+		String PHONE_PATTERN = "^[\\0-9]{2,50}$";
+		
+		pattern = Pattern.compile(PHONE_PATTERN);
+		matcher = pattern.matcher(phone);
+		
+		if(!matcher.matches()) {
+			System.err.println("The phone number must have 10 characters and contain numbers only!");
+		}
+		return matcher.matches();
+	}
+	
 	// override toString
 	/**
 	 * @effects returns <code>this.id</code>
@@ -213,9 +305,6 @@ public class Customer {
 			throws ConstraintViolationException {
 
 		if (minVal != null && maxVal != null) {
-			// TODO: update this for the correct attribute if there are more than one auto
-			// attributes of this class
-
 			String maxId = (String) maxVal;
 
 			try {
