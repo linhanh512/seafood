@@ -1,4 +1,4 @@
-package controller;
+﻿package controller;
 
 import domainapp.basics.exceptions.ConstraintViolationException;
 import domainapp.basics.exceptions.NotPossibleException;
@@ -20,9 +20,9 @@ import model.Customer;
 import model.Seafood;
 
 /**
- * Represents an enrolment
+ * Represents an Import Seafood
  * 
- * @author dmle
+ * @author Nguyen Thanh Tung
  * 
  */
 @DClass(schema = "courseman")
