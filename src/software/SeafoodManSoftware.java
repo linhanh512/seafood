@@ -1,5 +1,6 @@
 package software;
 
+import controller.ExportSeafood;
 import controller.ImportSeafood;
 import domainapp.basics.exceptions.NotPossibleException;
 import domainapp.basics.software.DomainAppToolSoftware;
@@ -8,12 +9,13 @@ import model.Country;
 import model.Customer;
 import model.DomesticSeafood;
 import model.ForeignSeafood;
+import model.OrderRow;
+import model.OrderTable;
 import model.Purchaser;
 import model.Seafood;
 import model.Seller;
 import model.TypeOfSeafood;
 
-import model.*;
 
 import model.reports.*;
 
@@ -43,6 +45,7 @@ public class SeafoodManSoftware extends DomainAppToolSoftware {
       //
       
       ImportSeafood.class,
+      ExportSeafood.class,
       TypeOfSeafood.class,
       OrderTable.class,
       OrderRow.class, 
