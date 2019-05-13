@@ -26,13 +26,14 @@ import model.reports.CustomerByNameReport;
  * @version 2.0
  */
 @DClass(schema = "seafoodman")
-public class Customer {
+public abstract class Customer {
 	public static final String A_name = "name";
 	public static final String A_id = "id";
 	public static final String A_phone = "phone";
 	public static final String A_address = "address";
 	public static final String A_email = "email";
 	public static final String A_rptCustomerByName = "rptCustomerByName";
+	public static final String A_typeOfPurchaser = "typeOfPurchaser";
 	// attributes of customers
 	@DAttr(name = A_id, id = true, type = Type.String, auto = true, length = 6, mutable = false, optional = false)
 	private String id;
@@ -93,14 +94,14 @@ public class Customer {
 		this.name = name;
 	}
 
-	public void setDob(String phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
 	public void setAddress(Country address) {
 		this.address = address;
 	}
-
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}

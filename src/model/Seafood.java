@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Collection;
+
 import domainapp.basics.exceptions.ConstraintViolationException;
 import domainapp.basics.model.meta.AttrRef;
 import domainapp.basics.model.meta.DAssoc;
@@ -8,6 +10,7 @@ import domainapp.basics.model.meta.DAssoc.AssocType;
 import domainapp.basics.model.meta.DAssoc.Associate;
 import domainapp.basics.model.meta.DAttr;
 import domainapp.basics.model.meta.DOpt;
+import domainapp.basics.model.meta.MetaConstants;
 import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.util.Tuple;
@@ -19,7 +22,7 @@ import model.reports.SeafoodByNameReport;
  * @author Do Thi Thuy Linh
  */
 @DClass(schema="seafoodman")
-public class Seafood {
+public abstract class Seafood {
 	
 	public static final String A_name = "name";
 	public static final String A_id = "id";
@@ -35,42 +38,61 @@ public class Seafood {
 	
 	@DAttr(name=A_name,type=Type.String,length=20,optional=false)
 	private String name;
+	
 	@DAttr(name=A_weight,type=Type.Double,length=5,optional=false)
 	private double weight;
+	
 	@DAttr(name=A_type,type=Type.Domain, length = 15, optional =true)
 	@DAssoc(ascName="seafood-has-type",role="seafood",ascType=AssocType.One2One, endType = AssocEndType.One,associate = @Associate(type=TypeOfSeafood.class,cardMin=1, cardMax=1))
 	private TypeOfSeafood type;
+	
 	@DAttr(name=A_price,type=Type.Double,length=5,optional=false)
 	private double price;
+	
 	@DAttr(name = A_rptSeafoodByName, type = Type.Domain, serialisable = false,
 			// IMPORTANT: set virtual=true to exclude this attribute from the object state
 			// (avoiding the view having to load this attribute's value from data source)
 			virtual = true)
 	private SeafoodByNameReport rptSeafoodByName;
 	
-	//Constructors
-	//Constructor with id and name
+//	@DAttr(name="bill",type=Type.Domain,length=6,optional=true)
+//	private Collection<SeafoodBill> bill;
 	
+//	@DAttr(name="order",type=Type.Domain,length=6,optional=true)
+//	@DAssoc(ascName="order-has-seafood",role="seafood",
+//	ascType=AssocType.One2One, endType=AssocEndType.One,
+//	associate=@Associate(type=OrderDetails.class,cardMin=1,cardMax=1))
+//	private OrderDetails order;
 	
-	//Constructor with name only
+	//Constructor without id, order and bill
 	@DOpt(type=DOpt.Type.RequiredConstructor)
 	@DOpt(type=DOpt.Type.ObjectFormConstructor)
-	public Seafood(@AttrRef("name") String name, @AttrRef("weight") double weight, @AttrRef("price") double price, @AttrRef("type") TypeOfSeafood type) {
+	public Seafood(@AttrRef("name") String name, @AttrRef("weight") double weight, 
+			@AttrRef("price") double price, @AttrRef("type") TypeOfSeafood type) {
 		this(null,name,weight,price,type);
 	}
 	
 	@DOpt(type = DOpt.Type.DataSourceConstructor)
-	public Seafood(@AttrRef("id") String id, @AttrRef("name") String name,@AttrRef("weight") double weight, @AttrRef("price") double price, @AttrRef("type") TypeOfSeafood type)
+	public Seafood(@AttrRef("id") String id, @AttrRef("name") String name,@AttrRef("weight") double weight,
+			@AttrRef("price") double price, @AttrRef("type") TypeOfSeafood type)
+//			@AttrRef("bill") Collection<SeafoodBill> bill, @AttrRef("order") OrderDetails order)
 	throws ConstraintViolationException{
 		this.id = nextID(id);
 		this.name = name;
 		this.weight = weight;
 		this.price = price;
 		this.type = type;
+//		this.order = order;
+//		this.bill = bill;
 	}
+	
 	public SeafoodByNameReport getRptSeafoodByName() {
 		return rptSeafoodByName;
 	}
+	
+//	public OrderDetails getOrder() {
+//		return order;
+//	}
 	//setter
 	public void setName(String name) {
 		this.name = name;
@@ -84,6 +106,12 @@ public class Seafood {
 	public void setType(TypeOfSeafood type) {
 		this.type = type;
 	}
+//	public void setBill(Collection<SeafoodBill> bill) {
+//		this.bill = bill;
+//	}
+//	public void setOrder(OrderDetails order) {
+//		this.order = order;
+//	}
 	//getter
 	public String getId() {
 		return id;
@@ -100,6 +128,11 @@ public class Seafood {
 	public TypeOfSeafood getType() {
 		return type;
 	}
+	
+//	public Collection<SeafoodBill> getBill(){
+//		return bill;
+//	}
+
 	// override toString
 	/**
 	* @effects returns <code>this.id</code>
@@ -114,7 +147,7 @@ public class Seafood {
 	*/
 	public String toString(boolean full) {
 		if (full)
-			return "Seafood(" + id + ", " +", "+ name +", "+ weight+", "+price+", "+type+")";
+			return "Seafood(" + id + ", " +", "+ name +", "+price+")";
 	    else
 	    	return "Seafood(" + id + ")";
 	}
