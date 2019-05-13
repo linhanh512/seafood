@@ -3,7 +3,7 @@ package software;
 import controller.ImportSeafood;
 import domainapp.basics.exceptions.NotPossibleException;
 import domainapp.basics.software.DomainAppToolSoftware;
-<<<<<<< HEAD
+
 import model.Country;
 import model.Customer;
 import model.DomesticSeafood;
@@ -12,9 +12,9 @@ import model.Purchaser;
 import model.Seafood;
 import model.Seller;
 import model.TypeOfSeafood;
-=======
+
 import model.*;
->>>>>>> f4bc30880c4108701128c306037cc40115e9e35d
+
 import model.reports.*;
 
 
@@ -30,7 +30,7 @@ public class SeafoodManSoftware extends DomainAppToolSoftware {
   
   // the domain model of software
   private static final Class[] model = {
-<<<<<<< HEAD
+
       //seafood
 	  Seafood.class,
       DomesticSeafood.class,
@@ -43,16 +43,9 @@ public class SeafoodManSoftware extends DomainAppToolSoftware {
       //
       
       ImportSeafood.class,
-=======
-      Seafood.class, 
-      DomesticSeafood.class, 
-      ForeignSeafood.class, 
-      Country.class, 
->>>>>>> f4bc30880c4108701128c306037cc40115e9e35d
       TypeOfSeafood.class,
       OrderTable.class,
-      OrderRow.class,
-      Customer.class, 
+      OrderRow.class, 
 //      Purchaser.class,
       // reports
       SeafoodByNameReport.class,

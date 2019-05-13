@@ -49,7 +49,7 @@ public class CustomerByNameReport {
   @DAttr(name="customers",type=Type.Collection,optional=false, mutable=false,
       serialisable=false,filter=@Select(clazz=Customer.class, 
       attributes={Customer.A_id, Customer.A_name, Customer.A_phone, Customer.A_address, 
-    		  Customer.A_email, Customer.A_typeOfPurchaser, Customer.A_rptCustomerByName}),derivedFrom={"name"})
+    		  Customer.A_email, Customer.A_rptCustomerByName}),derivedFrom={"name"})
   @DAssoc(ascName="Customers-by-name-report-has-Customers",role="report",
       ascType=AssocType.One2Many,endType=AssocEndType.One,
     associate=@Associate(type=Customer.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
