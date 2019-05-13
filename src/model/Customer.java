@@ -25,7 +25,7 @@ import model.reports.CustomerByNameReport;
  * Nguyen Thanh Tung
  */
 @DClass(schema = "seafoodman")
-public class Customer {
+public abstract class Customer {
 	public static final String A_name = "name";
 	public static final String A_id = "id";
 	public static final String A_phone = "phone";
