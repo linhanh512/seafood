@@ -34,6 +34,12 @@ public class Country {
 	@DAttr(name = "name", type = Type.String, length = 35, optional = false)
 	private String name;
 
+	@DAttr(name="foreign-seafood",type=Type.Domain,serialisable=false)
+	@DAssoc(ascName="foreignseafood-has-country",role="country",
+	ascType=AssocType.One2Many, endType=AssocEndType.One,
+	associate=@Associate(type=ForeignSeafood.class,cardMin=1,cardMax=MetaConstants.CARD_MORE))
+	private Collection<ForeignSeafood> fseafoods;
+	
 	@DAttr(name="customer",type=Type.Domain,serialisable=false)
 	@DAssoc(ascName="customer-has-country",role="country",
 	ascType=AssocType.One2Many, endType=AssocEndType.One,
@@ -42,24 +48,26 @@ public class Country {
 
 	@DOpt(type = DOpt.Type.DataSourceConstructor)
 	public Country(@AttrRef("id") Integer id, @AttrRef("name") String name) {
-		this(id, name, null);
+		this(id, name, null, null);
 	}
 
 	@DOpt(type = DOpt.Type.ObjectFormConstructor)
-	public Country(@AttrRef("name") String name, @AttrRef("customer") Collection<Customer> customer) {
-		this(null, name, customer);
+	public Country(@AttrRef("name") String name,@AttrRef("seafood") Collection<ForeignSeafood> fseafoods,
+			@AttrRef("customer") Collection<Customer> customers) {
+		this(null, name, fseafoods, customers);
 	}
 
 	// Constructor with name only
 	@DOpt(type = DOpt.Type.ObjectFormConstructor)
 	@DOpt(type = DOpt.Type.RequiredConstructor)
 	public Country(@AttrRef("name") String name) {
-		this(null, name, null);
+		this(null, name, null, null);
 	}
 
-	private Country(Integer id, String cityName, Collection<Customer> customer) {
+	private Country(Integer id, String cityName, Collection<ForeignSeafood> fseafoods, Collection<Customer> customer) {
 		this.id = nextId(id);
 		this.name = cityName;
+		fseafoods = new ArrayList<>();
 		customers = new ArrayList<>();
 	}
 
@@ -104,8 +112,22 @@ public class Country {
 		return name;
 	}
 
+	public Collection<ForeignSeafood> getFSeafood() {
+		return fseafoods;
+	}
+	
 	public Collection<Customer> getCustomer() {
 		return customers;
+	}
+	
+	@DOpt(type = DOpt.Type.LinkAdderNew)
+	public void setNewFSeafoods(Collection<ForeignSeafood> fseafoods) {
+		this.fseafoods = fseafoods;
+		// do other updates here (if needed)
+	}
+
+	public void setFSeafoods(Collection<ForeignSeafood> fseafoods) {
+		this.fseafoods = fseafoods;
 	}
 	
 	@DOpt(type = DOpt.Type.LinkAdderNew)

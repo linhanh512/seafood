@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import domainapp.basics.exceptions.ConstraintViolationException;
 import domainapp.basics.model.meta.AttrRef;
 import domainapp.basics.model.meta.DAssoc;
@@ -16,10 +15,9 @@ import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.util.Tuple;
 
-import model.Customer;
 
 /**
- * @overview represent a country (a ForeignSeafood's origin)
+ * @overview represent a type of seafood
  * 
  * @author Nguyen Thanh Tung
  */
