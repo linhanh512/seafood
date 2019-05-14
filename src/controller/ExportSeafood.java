@@ -20,7 +20,7 @@ import model.Customer;
 import model.Seafood;
 
 /**
- * Represents an Import Seafood
+ * Represents an Export Seafood
  * 
  * @author Nguyen Thanh Tung
  * 

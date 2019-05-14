@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import domainapp.basics.exceptions.ConstraintViolationException;
@@ -13,7 +12,6 @@ import domainapp.basics.model.meta.DAttr;
 import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.model.meta.DOpt;
-import domainapp.basics.model.meta.MetaConstants;
 import domainapp.basics.util.Tuple;
 import model.Country;
 import model.reports.CustomerByNameReport;

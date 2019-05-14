@@ -1,4 +1,3 @@
-
 package model;
 
 import domainapp.basics.exceptions.ConstraintViolationException;
