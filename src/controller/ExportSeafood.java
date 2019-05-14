@@ -18,6 +18,10 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import model.Customer;
 import model.Seafood;
+import model.reports.ExportSeafoodByDateReport;
+import model.reports.ExportSeafoodByPriceReport;
+import model.reports.ImportSeafoodByDateReport;
+import model.reports.ImportSeafoodByPriceReport;
 
 /**
  * Represents an Export Seafood
@@ -32,6 +36,8 @@ public class ExportSeafood implements Comparable {
 	public static final String A_Price = "price";
 	public static final String A_Date = "date";
 	public static final String A_Total = "total";
+	public static final String A_rptExportSeafoodByDate = "rptExportSeafoodByDate";
+	public static final String A_rptExportSeafoodByPrice = "rptExportSeafoodByPrice";
   
   // attributes
   @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
@@ -63,6 +69,18 @@ public class ExportSeafood implements Comparable {
       serialisable=false,
       derivedFrom={A_Quantity, A_Price})
   private Double total;
+  
+  @DAttr(name = A_rptExportSeafoodByDate, type = Type.Domain, serialisable = false,
+			// IMPORTANT: set virtual=true to exclude this attribute from the object state
+			// (avoiding the view having to load this attribute's value from data source)
+			virtual = true)
+  private ExportSeafoodByDateReport rptExportSeafoodByDate;
+
+  @DAttr(name = A_rptExportSeafoodByPrice, type = Type.Domain, serialisable = false,
+			// IMPORTANT: set virtual=true to exclude this attribute from the object state
+			// (avoiding the view having to load this attribute's value from data source)
+			virtual = true)
+  private ExportSeafoodByPriceReport rptExportSeafoodByPrice;
 
   // v2.6.4.b
   private StateHistory<String, Object> stateHist;
@@ -170,6 +188,14 @@ public class ExportSeafood implements Comparable {
   }
   public String getDate() {
 	  return date;
+  }
+  
+  public ExportSeafoodByDateReport getRptExportSeafoodByDate() {
+	  return rptExportSeafoodByDate;
+  }
+  
+  public ExportSeafoodByPriceReport getRptExportSeafoodByPrice() {
+	  return rptExportSeafoodByPrice;
   }
 
   // v2.6.4.b

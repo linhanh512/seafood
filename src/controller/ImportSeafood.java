@@ -18,6 +18,9 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import model.Customer;
 import model.Seafood;
+import model.reports.ImportSeafoodByDateReport;
+import model.reports.ImportSeafoodByPriceReport;
+import model.reports.SeafoodByNameReport;
 
 /**
  * Represents an Import Seafood
@@ -32,6 +35,8 @@ public class ImportSeafood implements Comparable {
   public static final String A_Price = "price";
   public static final String A_Date = "date";
   public static final String A_Total = "total";
+  public static final String A_rptImportSeafoodByDate = "rptImportSeafoodByDate";
+  public static final String A_rptImportSeafoodByPrice = "rptImportSeafoodByPrice";
   
   // attributes
   @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
@@ -63,6 +68,18 @@ public class ImportSeafood implements Comparable {
       serialisable=false,
       derivedFrom={A_Quantity, A_Price})
   private Double total;
+  
+  @DAttr(name = A_rptImportSeafoodByDate, type = Type.Domain, serialisable = false,
+			// IMPORTANT: set virtual=true to exclude this attribute from the object state
+			// (avoiding the view having to load this attribute's value from data source)
+			virtual = true)
+  private ImportSeafoodByDateReport rptImportSeafoodByDate;
+  
+  @DAttr(name = A_rptImportSeafoodByPrice, type = Type.Domain, serialisable = false,
+			// IMPORTANT: set virtual=true to exclude this attribute from the object state
+			// (avoiding the view having to load this attribute's value from data source)
+			virtual = true)
+  private ImportSeafoodByPriceReport rptImportSeafoodByPrice;
 
   // v2.6.4.b
   private StateHistory<String, Object> stateHist;
@@ -170,6 +187,14 @@ public class ImportSeafood implements Comparable {
   }
   public String getDate() {
 	  return date;
+  }
+  
+  public ImportSeafoodByDateReport getRptImportSeafoodByDate() {
+	  return rptImportSeafoodByDate;
+  }
+  
+  public ImportSeafoodByPriceReport getRptImportSeafoodByPrice() {
+	  return rptImportSeafoodByPrice;
   }
 
   // v2.6.4.b
