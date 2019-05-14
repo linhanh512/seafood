@@ -28,10 +28,10 @@ import model.Seafood;
 @DClass(schema = "courseman")
 public class ImportSeafood implements Comparable {
 	
-  public static final String AttributeName_Quantity = "quantity";
-  public static final String AttributeName_Price = "price";
-  public static final String AttributeName_Date = "date";
-  public static final String AttributeName_Total = "total";
+  public static final String A_Quantity = "quantity";
+  public static final String A_Price = "price";
+  public static final String A_Date = "date";
+  public static final String A_Total = "total";
   
   // attributes
   @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
@@ -50,18 +50,18 @@ public class ImportSeafood implements Comparable {
     associate = @Associate(type = Customer.class, cardMin = 1, cardMax = 1), dependsOn = true)
   private Customer customer;
 
-  @DAttr(name = AttributeName_Quantity, type = Type.Double, length = 4, optional = false, min = 0.0)
+  @DAttr(name = A_Quantity, type = Type.Double, length = 4, optional = false, min = 0.0)
   private Double quantity;
   
-  @DAttr(name = AttributeName_Price, type = Type.Double, length = 4, optional = false, min = 0.0)
+  @DAttr(name = A_Price, type = Type.Double, length = 4, optional = false, min = 0.0)
   private Double price;
 
-  @DAttr(name = AttributeName_Date,type = Type.String,length = 20, optional = false )
+  @DAttr(name = A_Date,type = Type.String,length = 20, optional = false )
   private String date;
   // v2.6.4.b derived from two attributes
-  @DAttr(name = AttributeName_Total,type=Type.Double,auto=true,mutable = false,optional = true,
+  @DAttr(name = A_Total,type=Type.Double,auto=true,mutable = false,optional = true,
       serialisable=false,
-      derivedFrom={AttributeName_Quantity, AttributeName_Price})
+      derivedFrom={A_Quantity, A_Price})
   private Double total;
 
   // v2.6.4.b
@@ -134,14 +134,14 @@ public class ImportSeafood implements Comparable {
   }
 
   @DOpt(type=DOpt.Type.DerivedAttributeUpdater)
-  @AttrRef(value=AttributeName_Total)
+  @AttrRef(value=A_Total)
   public void updateTotal() {
 
     if (quantity != null && price != null) {
       double totalPrice =  quantity * price;
       
       // v2.6.4b: cache final mark
-      stateHist.put(AttributeName_Total, total);
+      stateHist.put(A_Total, total);
 
       // round the mark to the closest integer value
       total = totalPrice;
@@ -180,7 +180,7 @@ public class ImportSeafood implements Comparable {
   
   public Double getTotal(boolean cached) throws IllegalStateException {
     if (cached) {
-      Object val = stateHist.get(AttributeName_Total);
+      Object val = stateHist.get(A_Total);
       if (val == null)
         throw new IllegalStateException(
             "Enrolment.getFinalMark: cached value is null");
