@@ -35,7 +35,7 @@ public abstract class Customer {
 	// attributes of customers
 	@DAttr(name = A_id, id = true, type = Type.String, auto = true, length = 6, mutable = false, optional = false)
 	private String id;
-	// static variable to keep track of student id
+	// static variable to keep track of customer id
 	private static int idCounter = 0;
 
 	@DAttr(name = A_name, type = Type.String, length = 30, optional = false)
@@ -50,6 +50,8 @@ public abstract class Customer {
 
 	@DAttr(name = A_email, type = Type.String, length = 30, optional = false)
 	private String email;
+	
+	
 
 	@DAttr(name = A_rptCustomerByName, type = Type.Domain, serialisable = false,
 			// IMPORTANT: set virtual=true to exclude this attribute from the object state
@@ -73,17 +75,12 @@ public abstract class Customer {
 		this.id = nextID(id);
 
 		// assign other values
-		if(validateName(name)&&validateEmail(email)&&validatePhone(phone)&&validateAddress(address)) {
 			this.name = name;
 			this.phone = phone;
 			this.address = address;
 			this.email = email;
-		}else {
-			this.name = null;
-			this.phone = null;
-			this.address = null;
-			this.email = null;
-		}
+		
+			
 //		this.bill = bill;
 	}
 	
@@ -139,87 +136,87 @@ public abstract class Customer {
 //	}
 
 	//validator
-	private boolean validateName(String name) {
-		Pattern pattern;
-		Matcher matcher;
-		
-		String CUSTOMERNAME_PATTERN = "^[\\p{L}]{2,50}$";
-		
-		pattern = Pattern.compile(CUSTOMERNAME_PATTERN);
-		matcher = pattern.matcher(name);
-		
-		if(!matcher.matches()) {
-			System.err.println("The name must have between 2 and 50 characters and contain letters only!");
-		}
-		return matcher.matches();
-	}
+//	private boolean validateName(String name) {
+//		Pattern pattern;
+//		Matcher matcher;
+//		
+//		String CUSTOMERNAME_PATTERN = "^[\\p{L}]{2,50}$";
+//		
+//		pattern = Pattern.compile(CUSTOMERNAME_PATTERN);
+//		matcher = pattern.matcher(name);
+//		
+//		if(!matcher.matches()) {
+//			System.err.println("The name must have between 2 and 50 characters and contain letters only!");
+//		}
+//		return matcher.matches();
+//	}
+//	
+//	private boolean validateEmail(String email) {
+//		Pattern pattern;
+//		Matcher matcher;
+//		
+//		String EMAIL_PATTERN = "^[\\p{L}0-9@._]{10,75}$";
+//		
+//		pattern = Pattern.compile(EMAIL_PATTERN);
+//		matcher = pattern.matcher(email);
+//		
+//		if(!matcher.matches()) {
+//			System.err.println("The email must have between 10 and 75 characters and must not contain special characters!");
+//			return false;
+//		}
+//		
+//		//cut email into 2 parts by @ sign
+//		String[] emailDetail = email.split("@");
+//		
+//		//more than 2 @ in email string -> error
+//		if(emailDetail.length>2) {
+//			return false;
+//		}
+//		
+//		//validate first part of email address (before @)
+//		pattern = Pattern.compile("^[\\\\p{L}0-9._]{10,65}$");
+//		matcher = pattern.matcher(emailDetail[0]);
+//		if(!matcher.matches()) {
+//			System.err.println("The username of email must have 10-65 characters and contains letters, numbers, dots and underscores");
+//			return false;
+//		}
+//		
+//		//validate second part of email address (after @)
+//		if(!emailDetail[1].contains(".com")||!emailDetail[1].contains(".vn")) {
+//			System.err.println("An email address must end with .com or .vn!");
+//			return false;
+//		}
+//		
+//		//no mistake, return true
+//		return true;
+//	}
 	
-	private boolean validateEmail(String email) {
-		Pattern pattern;
-		Matcher matcher;
-		
-		String EMAIL_PATTERN = "^[\\p{L}0-9@._]{10,75}$";
-		
-		pattern = Pattern.compile(EMAIL_PATTERN);
-		matcher = pattern.matcher(email);
-		
-		if(!matcher.matches()) {
-			System.err.println("The email must have between 10 and 75 characters and must not contain special characters!");
-			return false;
-		}
-		
-		//cut email into 2 parts by @ sign
-		String[] emailDetail = email.split("@");
-		
-		//more than 2 @ in email string -> error
-		if(emailDetail.length>2) {
-			return false;
-		}
-		
-		//validate first part of email address (before @)
-		pattern = Pattern.compile("^[\\\\p{L}0-9._]{10,65}$");
-		matcher = pattern.matcher(emailDetail[0]);
-		if(!matcher.matches()) {
-			System.err.println("The username of email must have 10-65 characters and contains letters, numbers, dots and underscores");
-			return false;
-		}
-		
-		//validate second part of email address (after @)
-		if(!emailDetail[1].contains(".com")||!emailDetail[1].contains(".vn")) {
-			System.err.println("An email address must end with .com or .vn!");
-			return false;
-		}
-		
-		//no mistake, return true
-		return true;
-	}
-	
-	private boolean validateAddress(Country add) {
-		if(add.equals(null)) {
-			return false;
-		}
-		return true;
-	}
-	private boolean validatePhone(String phone) {
-		
-		//start with number 0
-		if(!phone.startsWith("0")) {
-			return false;
-		}
-		
-		Pattern pattern;
-		Matcher matcher;
-		
-		String PHONE_PATTERN = "^[\\0-9]{2,50}$";
-		
-		pattern = Pattern.compile(PHONE_PATTERN);
-		matcher = pattern.matcher(phone);
-		
-		if(!matcher.matches()) {
-			System.err.println("The phone number must have 10 characters and contain numbers only!");
-		}
-		return matcher.matches();
-	}
+//	private boolean validateAddress(Country add) {
+//		if(add.equals(null)) {
+//			return false;
+//		}
+//		return true;
+//	}
+//	private boolean validatePhone(String phone) {
+//		
+//		//start with number 0
+//		if(!phone.startsWith("0")) {
+//			return false;
+//		}
+//		
+//		Pattern pattern;
+//		Matcher matcher;
+//		
+//		String PHONE_PATTERN = "^[\\0-9]{2,50}$";
+//		
+//		pattern = Pattern.compile(PHONE_PATTERN);
+//		matcher = pattern.matcher(phone);
+//		
+//		if(!matcher.matches()) {
+//			System.err.println("The phone number must have 10 characters and contain numbers only!");
+//		}
+//		return matcher.matches();
+//	}
 	
 	// override toString
 	/**
