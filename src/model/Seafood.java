@@ -71,7 +71,7 @@ public abstract class Seafood {
 		this(id,name,type,null);
 	}
 	
-	private Seafood(@AttrRef("id") String id, @AttrRef("name") String name, 
+	public Seafood(@AttrRef("id") String id, @AttrRef("name") String name, 
 			@AttrRef("type") TypeOfSeafood type,@AttrRef("order") OrderRow order)
 			throws ConstraintViolationException{
 		this.id = nextID(id);
