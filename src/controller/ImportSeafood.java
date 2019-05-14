@@ -28,10 +28,10 @@ import model.Seafood;
 @DClass(schema = "courseman")
 public class ImportSeafood implements Comparable {
 	
-  private static final String AttributeName_Quantity = "quantity";
-  private static final String AttributeName_Price = "price";
-  private static final String AttributeName_Date = "date";
-  private static final String AttributeName_Total = "total";
+  public static final String AttributeName_Quantity = "quantity";
+  public static final String AttributeName_Price = "price";
+  public static final String AttributeName_Date = "date";
+  public static final String AttributeName_Total = "total";
   
   // attributes
   @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
