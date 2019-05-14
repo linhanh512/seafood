@@ -37,7 +37,7 @@ public class OrderTable {
 	      ascType=AssocType.One2Many,endType=AssocEndType.One,
 	      associate=@Associate(type=OrderRow.class,
 	      cardMin=1,cardMax=25))  
-	  private Collection<OrderRow> OrderRow;
+	  private Collection<OrderRow> rows;
 	  
 	  // derived attributes
 	  private int OrderRowCount;
@@ -54,7 +54,7 @@ public class OrderTable {
 	    this.id = nextID(id);
 	    this.name = name;
 	    
-	    OrderRow = new ArrayList<>();
+	    rows = new ArrayList<>();
 	    OrderRowCount = 0;
 	  }
 
@@ -66,8 +66,8 @@ public class OrderTable {
 	  @DOpt(type=DOpt.Type.LinkAdder)
 	  //only need to do this for reflexive association: @MemberRef(name="OrderRow")  
 	  public boolean addOrderRow(OrderRow s) {
-	    if (!this.OrderRow.contains(s)) {
-	      OrderRow.add(s);
+	    if (!this.rows.contains(s)) {
+	      rows.add(s);
 	    }
 	    
 	    // no other attributes changed
@@ -76,7 +76,7 @@ public class OrderTable {
 
 	  @DOpt(type=DOpt.Type.LinkAdderNew)
 	  public boolean addNewOrderRow(OrderRow s) {
-	    OrderRow.add(s);
+	    rows.add(s);
 	    OrderRowCount++;
 	    
 	    // no other attributes changed
@@ -86,8 +86,8 @@ public class OrderTable {
 	  @DOpt(type=DOpt.Type.LinkAdder)
 	  public boolean addOrderRow(Collection<OrderRow> OrderRow) {
 	    for (OrderRow s : OrderRow) {
-	      if (!this.OrderRow.contains(s)) {
-	        this.OrderRow.add(s);
+	      if (!this.rows.contains(s)) {
+	        this.rows.add(s);
 	      }
 	    }
 	    
@@ -97,7 +97,7 @@ public class OrderTable {
 
 	  @DOpt(type=DOpt.Type.LinkAdderNew)
 	  public boolean addNewOrderRow(Collection<OrderRow> OrderRow) {
-	    this.OrderRow.addAll(OrderRow);
+	    this.rows.addAll(OrderRow);
 	    OrderRowCount += OrderRow.size();
 
 	    // no other attributes changed
@@ -107,7 +107,7 @@ public class OrderTable {
 	  @DOpt(type=DOpt.Type.LinkRemover)
 	  //only need to do this for reflexive association: @MemberRef(name="OrderRow")
 	  public boolean removeOrderRow(OrderRow s) {
-	    boolean removed = OrderRow.remove(s);
+	    boolean removed = rows.remove(s);
 	    
 	    if (removed) {
 	      OrderRowCount--;
@@ -119,7 +119,7 @@ public class OrderTable {
 	  
 	  @DOpt(type=DOpt.Type.Setter)
 	  public void setOrderRow(Collection<OrderRow> OrderRow) {
-	    this.OrderRow = OrderRow;
+	    this.rows = OrderRow;
 	    
 	    OrderRowCount = OrderRow.size();
 	  }
@@ -145,7 +145,7 @@ public class OrderTable {
 	  
 	  @DOpt(type=DOpt.Type.Getter)
 	  public Collection<OrderRow> getOrderRow() {
-	    return OrderRow;
+	    return rows;
 	  }
 	  
 	  @DOpt(type=DOpt.Type.Getter)
