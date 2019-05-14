@@ -19,8 +19,7 @@ import model.reports.CustomerByNameReport;
 /**
  * Represents a customer. The customer ID is auto-incremented
  * 
- * @author
- * Nguyen Thanh Tung
+ * @author Nguyen Thanh Tung
  */
 @DClass(schema = "seafoodman")
 public abstract class Customer {
@@ -31,7 +30,7 @@ public abstract class Customer {
 	public static final String A_email = "email";
 	public static final String A_rptCustomerByName = "rptCustomerByName";
 	public static final String A_bill = "bill";
-	
+
 	// attributes of customers
 	@DAttr(name = A_id, id = true, type = Type.String, auto = true, length = 6, mutable = false, optional = false)
 	private String id;
@@ -50,15 +49,13 @@ public abstract class Customer {
 
 	@DAttr(name = A_email, type = Type.String, length = 30, optional = false)
 	private String email;
-	
-	
 
 	@DAttr(name = A_rptCustomerByName, type = Type.Domain, serialisable = false,
 			// IMPORTANT: set virtual=true to exclude this attribute from the object state
 			// (avoiding the view having to load this attribute's value from data source)
 			virtual = true)
 	private CustomerByNameReport rptCustomerByName;
-	
+
 	// constructor methods
 	@DOpt(type = DOpt.Type.RequiredConstructor)
 	@DOpt(type = DOpt.Type.ObjectFormConstructor)
@@ -73,21 +70,17 @@ public abstract class Customer {
 			@AttrRef("address") Country address, @AttrRef("email") String email) throws ConstraintViolationException {
 		// generate an id
 		this.id = nextID(id);
-
 		// assign other values
-			this.name = name;
-			this.phone = phone;
-			this.address = address;
-			this.email = email;
-		
-			
+		this.name = name;
+		this.phone = phone;
+		this.address = address;
+		this.email = email;
 //		this.bill = bill;
 	}
-	
+
 	public CustomerByNameReport getRptCustomerByName() {
 		return rptCustomerByName;
 	}
-
 
 	// setter methods
 	public void setName(String name) {
@@ -105,7 +98,7 @@ public abstract class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 //	public void setBill(Collection<SeafoodBill> bill) {
 //		this.bill = bill;
 //	}
@@ -130,12 +123,12 @@ public abstract class Customer {
 	public String getEmail() {
 		return email;
 	}
-	
+
 //	public Collection<SeafoodBill> getBill(){
 //		return bill;
 //	}
 
-	//validator
+	// validator
 //	private boolean validateName(String name) {
 //		Pattern pattern;
 //		Matcher matcher;
@@ -190,7 +183,7 @@ public abstract class Customer {
 //		//no mistake, return true
 //		return true;
 //	}
-	
+
 //	private boolean validateAddress(Country add) {
 //		if(add.equals(null)) {
 //			return false;
@@ -217,7 +210,7 @@ public abstract class Customer {
 //		}
 //		return matcher.matches();
 //	}
-	
+
 	// override toString
 	/**
 	 * @effects returns <code>this.id</code>

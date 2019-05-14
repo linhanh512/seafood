@@ -2,6 +2,8 @@ package model.reports;
 
 import java.util.Collection;
 import java.util.Map;
+
+import controller.ImportSeafood;
 import domainapp.basics.core.dodm.dsm.DSMBasic;
 import domainapp.basics.core.dodm.qrm.QRM;
 import domainapp.basics.exceptions.DataSourceException;
@@ -21,8 +23,7 @@ import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.query.Query;
 import domainapp.basics.model.query.QueryToolKit;
 import domainapp.basics.model.query.Expression.Op;
-import domainapp.basics.modules.report.model.meta.Output;
-import controller.ImportSeafood; 
+import domainapp.basics.modules.report.model.meta.Output; 
 
 /**
  * @overview represent a report about imported seafood price
