@@ -1,7 +1,6 @@
 ﻿package controller;
 
 import domainapp.basics.exceptions.ConstraintViolationException;
-import domainapp.basics.exceptions.NotPossibleException;
 import domainapp.basics.model.meta.AttrRef;
 import domainapp.basics.model.meta.DAssoc;
 import domainapp.basics.model.meta.DAssoc.AssocEndType;
@@ -20,7 +19,6 @@ import model.Customer;
 import model.Seafood;
 import model.reports.ImportSeafoodByDateReport;
 import model.reports.ImportSeafoodByPriceReport;
-import model.reports.SeafoodByNameReport;
 
 /**
  * Represents an Import Seafood
