@@ -15,6 +15,7 @@ import domainapp.basics.util.cache.StateHistory;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+
 import model.Customer;
 import model.Seafood;
 import model.reports.ImportSeafoodByDateReport;
@@ -28,6 +29,8 @@ import model.reports.ImportSeafoodByDateReport;
 @DClass(schema = "courseman")
 public class ImportSeafood implements Comparable {
 	
+	public static final String A_Id = "id";
+	public static final String A_Customer = "customer";
   public static final String A_Quantity = "quantity";
   public static final String A_Price = "price";
   public static final String A_Date = "date";
@@ -36,7 +39,7 @@ public class ImportSeafood implements Comparable {
   public static final String A_rptImportSeafoodByPrice = "rptImportSeafoodByPrice";
   
   // attributes
-  @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
+  @DAttr(name = A_Id, id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
   private int id;
   private static int idCounter = 0;
 
@@ -46,7 +49,7 @@ public class ImportSeafood implements Comparable {
     associate = @Associate(type = Seafood.class, cardMin = 1, cardMax = 1), dependsOn = true)
   private Seafood seafood;
 
-  @DAttr(name = "customer", type = Type.Domain, length = 5, optional = false)
+  @DAttr(name = A_Customer, type = Type.Domain, length = 5, optional = false)
   @DAssoc(ascName = "customer-has-import", role = "import", 
     ascType = AssocType.One2Many, endType = AssocEndType.Many, 
     associate = @Associate(type = Customer.class, cardMin = 1, cardMax = 1), dependsOn = true)
@@ -110,11 +113,12 @@ public class ImportSeafood implements Comparable {
         : null;
     this.price = (price != null) ? price.doubleValue() : null;
     this.date = checkDate(date);
-
     // v2.6.4.b
     stateHist = new StateHistory<>();
-
     updateTotal(); 
+  }
+  public ImportSeafoodByDateReport getRptImportSeafoodByDate() {
+	  return rptImportSeafoodByDate;
   }
 
   private String checkDate(String date) throws ParseException  {
@@ -186,9 +190,6 @@ public class ImportSeafood implements Comparable {
 	  return date;
   }
   
-  public ImportSeafoodByDateReport getRptImportSeafoodByDate() {
-	  return rptImportSeafoodByDate;
-  }
   
 //  public ImportSeafoodByPriceReport getRptImportSeafoodByPrice() {
 //	  return rptImportSeafoodByPrice;
