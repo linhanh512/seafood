@@ -29,12 +29,14 @@ import model.reports.ExportSeafoodByDateReport;
 @DClass(schema = "courseman")
 public class ExportSeafood implements Comparable {
 	
+	public static final String A_Id = "id";
+	public static final String A_Customer = "customer";
 	public static final String A_Quantity = "quantity";
 	public static final String A_Price = "price";
 	public static final String A_Date = "date";
 	public static final String A_Total = "total";
 	public static final String A_rptExportSeafoodByDate = "rptExportSeafoodByDate";
-	public static final String A_rptExportSeafoodByPrice = "rptExportSeafoodByPrice";
+	//public static final String A_rptExportSeafoodByPrice = "rptExportSeafoodByPrice";
   
   // attributes
   @DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
@@ -42,13 +44,13 @@ public class ExportSeafood implements Comparable {
   private static int idCounter = 0;
 
   @DAttr(name = "seafood", type = Type.Domain, length = 5, optional = false)
-  @DAssoc(ascName = "seafood-has-import", role = "import", 
+  @DAssoc(ascName = "seafood-has-export", role = "export", 
     ascType = AssocType.One2Many, endType = AssocEndType.Many, 
     associate = @Associate(type = Seafood.class, cardMin = 1, cardMax = 1), dependsOn = true)
   private Seafood seafood;
 
   @DAttr(name = "customer", type = Type.Domain, length = 5, optional = false)
-  @DAssoc(ascName = "customer-has-import", role = "import", 
+  @DAssoc(ascName = "customer-has-export", role = "export", 
     ascType = AssocType.One2Many, endType = AssocEndType.Many, 
     associate = @Associate(type = Customer.class, cardMin = 1, cardMax = 1), dependsOn = true)
   private Customer customer;
@@ -73,11 +75,6 @@ public class ExportSeafood implements Comparable {
 			virtual = true)
   private ExportSeafoodByDateReport rptExportSeafoodByDate;
 
-//  @DAttr(name = A_rptExportSeafoodByPrice, type = Type.Domain, serialisable = false,
-//			// IMPORTANT: set virtual=true to exclude this attribute from the object state
-//			// (avoiding the view having to load this attribute's value from data source)
-//			virtual = true)
-//  private ExportSeafoodByPriceReport rptExportSeafoodByPrice;
 
   // v2.6.4.b
   private StateHistory<String, Object> stateHist;
@@ -114,16 +111,24 @@ public class ExportSeafood implements Comparable {
 
     // v2.6.4.b
     stateHist = new StateHistory<>();
-
     updateTotal(); 
   }
+  
+  public ExportSeafoodByDateReport getRptExportSeafoodByDate(){
+	  return rptExportSeafoodByDate;
+  }
+  
+  //public ExportSeafoodByPriceReport getRptExportSeafoodByPrice() {
+	//  return rptExportSeafoodByPrice;
+  //}
+
 
   private String checkDate(String date) throws ParseException  {
 	  DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	  format.setLenient(false);
 	  format.parse(date);
 	  
-	 return date;
+	  return date;
 }
 
 // setter methods
@@ -187,14 +192,6 @@ public class ExportSeafood implements Comparable {
 	  return date;
   }
   
-  public ExportSeafoodByDateReport getRptExportSeafoodByDate() {
-	  return rptExportSeafoodByDate;
-  }
-  
-//  public ExportSeafoodByPriceReport getRptExportSeafoodByPrice() {
-//	  return rptExportSeafoodByPrice;
-//  }
-
   // v2.6.4.b
   public Double getTotal() {
     return getTotal(false);// finalMark;

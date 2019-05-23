@@ -2,6 +2,7 @@ package model.reports;
 
 import java.util.Collection;
 import java.util.Map;
+
 import domainapp.basics.core.dodm.dsm.DSMBasic;
 import domainapp.basics.core.dodm.qrm.QRM;
 import domainapp.basics.exceptions.DataSourceException;
@@ -23,37 +24,39 @@ import domainapp.basics.model.query.QueryToolKit;
 import domainapp.basics.model.query.Expression.Op;
 import domainapp.basics.modules.report.model.meta.Output;
 import controller.ExportSeafood;
+import model.Customer;
 
 /**
- * @overview represent a report about export seafood date
+ * @overview represent a report about export seafood by date
  *
  * @author 
  */
-@DClass(schema = "seafoodman")
+@DClass(schema = "seafoodman", serialisable = false)
 public class ExportSeafoodByDateReport {
-	@DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 4, optional = false, mutable = false)
+	@DAttr(name = "id", id = true, auto = true, type = Type.Integer, length = 5, optional = false, mutable = false)
 	private int id;
 	private static int idCounter = 0;
 	
-	/**input: exported seafood date*/
-	@DAttr(name = "date", type = Type.String, length = 20, optional = false)
+	/**input: export date*/
+	@DAttr(name = "date", type = Type.String, length = 30, optional = false)
 	private String date;
 	
 	//output: Exported seafood whose cost match
-	@DAttr(name="exportseafoods",type=Type.Collection,optional=false, mutable=false,
-			serialisable=false,filter=@Select(clazz=ExportSeafood.class, 
-			attributes={ExportSeafood.A_Quantity, ExportSeafood.A_Price, ExportSeafood.A_Date, ExportSeafood.A_Total}),derivedFrom={"date"})
-			@DAssoc(ascName="ExportSeafood-by-date-report-has-ExportSeafood",role="report",
-			ascType=AssocType.One2Many,endType=AssocEndType.One,
-			associate=@Associate(type=ExportSeafood.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
+	@DAttr(name="exportSeafoods",type=Type.Collection,optional=false, mutable=false,
+			serialisable=false, filter=@Select(clazz=ExportSeafood.class, 
+			attributes={ExportSeafood.A_Id, ExportSeafood.A_Quantity, ExportSeafood.A_Price, ExportSeafood.A_Date, ExportSeafood.A_Total,
+					ExportSeafood.A_Customer, ExportSeafood.A_rptExportSeafoodByDate}),derivedFrom={"date"})
+			@DAssoc(ascName="export-seafood-by-date-report-has-export-seafood", role="report",
+			ascType = AssocType.One2Many, endType=AssocEndType.One,
+			associate = @Associate(type=ExportSeafood.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
 			@Output
-			private Collection<ExportSeafood> exportseafoods;
+			private Collection<ExportSeafood> exportSeafoods;
 	
 	
 	//output: number of matched dates
-	@DAttr(name = "numDates", type = Type.Integer, length = 20, auto=true, mutable=false)
+	@DAttr(name = "numExports", type = Type.Integer, length = 20, auto=true, mutable=false)
 	@Output
-	private int numDates;
+	private int numExports;
 	/**
 	* @effects 
 	*  initialize this with <tt>costs</tt> and use {@link QRM} to retrieve from data source 
@@ -123,10 +126,10 @@ public class ExportSeafoodByDateReport {
 		
 		if (result != null) {
 		      // update the main output data 
-		      exportseafoods = result.values();
+		      exportSeafoods = result.values();
 		      
 		   // update other output (if any)
-		      numDates = exportseafoods.size();
+		      numExports = exportSeafoods.size();
 		}else{
 		   // no data found: reset output
 		      resetOutput();
@@ -138,12 +141,13 @@ public class ExportSeafoodByDateReport {
 	   *  reset all output attributes to their initial values
 	   */
 	private void resetOutput() {
-		exportseafoods = null;
-		numDates = 0;
+		exportSeafoods = null;
+		numExports = 0;
 	}
 	
 	@DOpt(type=DOpt.Type.LinkAdder)
-	public boolean addExportSeafood(Collection<ExportSeafood> exportseafoods) {
+	public boolean addExportSeafood(Collection<ExportSeafood> exportSeafoods) {
+		//do nothing
 		return false;	
 	}
 	
@@ -151,14 +155,14 @@ public class ExportSeafoodByDateReport {
 	   * @effects return exportseafoods
 	   */
 	public Collection<ExportSeafood> getExportSeafoods() {
-		return exportseafoods;
+		return exportSeafoods;
 	}
 	
 	/**
 	   * @effects return numDates
 	   */
-	public int getnumDates() {
-		return numDates;
+	public int getNumExports() {
+		return numExports;
 	}
 	
 	/**
@@ -180,7 +184,8 @@ public class ExportSeafoodByDateReport {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		return result = prime * result + id;	
+		result = prime * result + id;
+		return result;
 	}
 	
 	/* (non-Javadoc)
@@ -215,7 +220,7 @@ public class ExportSeafoodByDateReport {
 	   */
 	@Override
 	public String toString() {
-		return "ExportSeafoodByDate (" + id + ", " + date +")";	
+		return "ExportSeafoodByDateReport (" + id + ", " + date +")";	
 	}
 }
 
