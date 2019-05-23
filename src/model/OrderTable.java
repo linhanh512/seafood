@@ -30,6 +30,12 @@ public class OrderTable {
 	  @DAttr(name="name",length=20,type=Type.String,optional=false)
 	  private String name;
 	  
+	  @DAttr(name="table",type=Type.Domain,optional=false)
+	  @DAssoc(ascName="bill-has-order-table",role="table",
+	  ascType=AssocType.One2One, endType=AssocEndType.One,
+	  associate=@Associate(type=SeafoodBill.class,cardMin=1,cardMax=1))
+	  private SeafoodBill bill;
+	  
 	  @DAttr(name="OrderRow",type=Type.Collection,
 	      serialisable=false,optional=false,
 	      filter=@Select(clazz=OrderRow.class))
@@ -61,6 +67,10 @@ public class OrderTable {
 	  @DOpt(type=DOpt.Type.Setter)
 	  public void setName(String name) {
 	    this.name = name;
+	  }
+	  
+	  public void setBill(SeafoodBill bill) {
+		  this.bill = bill;
 	  }
 
 	  @DOpt(type=DOpt.Type.LinkAdder)
@@ -151,6 +161,10 @@ public class OrderTable {
 	  @DOpt(type=DOpt.Type.Getter)
 	  public int getId() {
 	    return id;
+	  }
+	  
+	  public SeafoodBill getBill() {
+		  return bill;
 	  }
 	  
 	  @Override

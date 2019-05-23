@@ -18,7 +18,6 @@ import java.text.ParseException;
 import model.Customer;
 import model.Seafood;
 import model.reports.ImportSeafoodByDateReport;
-import model.reports.ImportSeafoodByPriceReport;
 
 /**
  * Represents an Import Seafood
@@ -73,11 +72,11 @@ public class ImportSeafood implements Comparable {
 			virtual = true)
   private ImportSeafoodByDateReport rptImportSeafoodByDate;
   
-  @DAttr(name = A_rptImportSeafoodByPrice, type = Type.Domain, serialisable = false,
-			// IMPORTANT: set virtual=true to exclude this attribute from the object state
-			// (avoiding the view having to load this attribute's value from data source)
-			virtual = true)
-  private ImportSeafoodByPriceReport rptImportSeafoodByPrice;
+//  @DAttr(name = A_rptImportSeafoodByPrice, type = Type.Domain, serialisable = false,
+//			// IMPORTANT: set virtual=true to exclude this attribute from the object state
+//			// (avoiding the view having to load this attribute's value from data source)
+//			virtual = true)
+//  private ImportSeafoodByPriceReport rptImportSeafoodByPrice;
 
   // v2.6.4.b
   private StateHistory<String, Object> stateHist;
@@ -191,9 +190,9 @@ public class ImportSeafood implements Comparable {
 	  return rptImportSeafoodByDate;
   }
   
-  public ImportSeafoodByPriceReport getRptImportSeafoodByPrice() {
-	  return rptImportSeafoodByPrice;
-  }
+//  public ImportSeafoodByPriceReport getRptImportSeafoodByPrice() {
+//	  return rptImportSeafoodByPrice;
+//  }
 
   // v2.6.4.b
   public Double getTotal() {

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import domainapp.basics.exceptions.ConstraintViolationException;
@@ -12,6 +14,7 @@ import domainapp.basics.model.meta.DAttr;
 import domainapp.basics.model.meta.DAttr.Type;
 import domainapp.basics.model.meta.DClass;
 import domainapp.basics.model.meta.DOpt;
+import domainapp.basics.model.meta.MetaConstants;
 import domainapp.basics.util.Tuple;
 import model.Country;
 import model.reports.CustomerByNameReport;
@@ -51,7 +54,11 @@ public abstract class Customer {
 	@DAttr(name = A_email, type = Type.String, length = 30, optional = false)
 	private String email;
 	
-	
+	@DAttr(name=A_bill,type=Type.Domain,serialisable=false)
+	@DAssoc(ascName="bill-has-customer",role="customer",
+	ascType=AssocType.One2Many, endType=AssocEndType.Many,
+	associate=@Associate(type=Seafood.class,cardMin=1,cardMax=MetaConstants.CARD_MORE))
+	private Collection<SeafoodBill> bills;
 
 	@DAttr(name = A_rptCustomerByName, type = Type.Domain, serialisable = false,
 			// IMPORTANT: set virtual=true to exclude this attribute from the object state
@@ -64,13 +71,26 @@ public abstract class Customer {
 	@DOpt(type = DOpt.Type.ObjectFormConstructor)
 	public Customer(@AttrRef("name") String name, @AttrRef("phone") String phone, @AttrRef("address") Country address,
 			@AttrRef("email") String email) {
-		this(null, name, phone, address, email);
+		this(null, name, phone, address, email,null);
 	}
 
+	@DOpt(type = DOpt.Type.ObjectFormConstructor)
+	public Customer(@AttrRef("name") String name, @AttrRef("phone") String phone, @AttrRef("address") Country address,
+			@AttrRef("email") String email, @AttrRef("bill") Collection<SeafoodBill> bills) {
+		this(null, name, phone, address, email,bills);
+	}
+	
+	@DOpt(type = DOpt.Type.ObjectFormConstructor)
+	public Customer(@AttrRef("id") String id,@AttrRef("name") String name, @AttrRef("phone") String phone, @AttrRef("address") Country address,
+			@AttrRef("email") String email) {
+		this(id, name, phone, address, email,null);
+	}
+	
 	// a shared constructor that is invoked by other constructors
 	@DOpt(type = DOpt.Type.DataSourceConstructor)
 	public Customer(@AttrRef("id") String id, @AttrRef("name") String name, @AttrRef("phone") String phone,
-			@AttrRef("address") Country address, @AttrRef("email") String email) throws ConstraintViolationException {
+			@AttrRef("address") Country address, @AttrRef("email") String email, 
+			@AttrRef("bill") Collection<SeafoodBill> bills) throws ConstraintViolationException {
 		// generate an id
 		this.id = nextID(id);
 
@@ -79,10 +99,10 @@ public abstract class Customer {
 			this.phone = phone;
 			this.address = address;
 			this.email = email;
-		
+			this.bills = new ArrayList<>();
 			
-//		this.bill = bill;
 	}
+	
 	
 	public CustomerByNameReport getRptCustomerByName() {
 		return rptCustomerByName;
@@ -106,9 +126,9 @@ public abstract class Customer {
 		this.email = email;
 	}
 	
-//	public void setBill(Collection<SeafoodBill> bill) {
-//		this.bill = bill;
-//	}
+	public void setBill(Collection<SeafoodBill> bill) {
+		this.bills = bill;
+	}
 
 	// getter methods
 	public String getId() {
@@ -131,9 +151,9 @@ public abstract class Customer {
 		return email;
 	}
 	
-//	public Collection<SeafoodBill> getBill(){
-//		return bill;
-//	}
+	public Collection<SeafoodBill> getBill(){
+		return bills;
+	}
 
 	//validator
 //	private boolean validateName(String name) {

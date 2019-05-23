@@ -13,6 +13,7 @@ import model.OrderRow;
 import model.OrderTable;
 import model.Purchaser;
 import model.Seafood;
+import model.SeafoodBill;
 import model.Seller;
 import model.TypeOfSeafood;
 
@@ -38,6 +39,7 @@ public class SeafoodManSoftware extends DomainAppToolSoftware {
       DomesticSeafood.class,
       ForeignSeafood.class,
       Country.class, 
+      SeafoodBill.class,
       //customer
       Customer.class,
       Purchaser.class,
