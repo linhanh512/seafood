@@ -1,5 +1,8 @@
 package model.reports;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Map;
 
@@ -72,9 +75,10 @@ public class ImportSeafoodByDateReport {
    */
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   @DOpt(type=DOpt.Type.RequiredConstructor)
-  public ImportSeafoodByDateReport(@AttrRef("date") String date) throws NotPossibleException, DataSourceException {
+  public ImportSeafoodByDateReport(@AttrRef("date") String date) throws NotPossibleException, DataSourceException
+  , ParseException {
     this.id=++idCounter;
-    this.date = date;
+    this.date = checkDate(date);
     doReportQuery();
   }
   
@@ -95,13 +99,22 @@ public class ImportSeafoodByDateReport {
    *  </pre>
    */
   public void setDate(String date) throws NotPossibleException, DataSourceException {
-//    boolean doReportQuery = (name != null && !name.equals(this.name));
+	  // boolean doReportQuery = (name != null && !name.equals(this.name));
     
     this.date = date;
     
     // DONOT invoke this here if there are > 1 input attributes!
     doReportQuery();
   }
+  
+  private String checkDate(String date) throws ParseException  {
+	  DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+	  format.setLenient(false);
+	  format.parse(date);
+	  
+	  return date;
+  }
+
 
   /**
    * This method is invoked when the report input has be set by the user. 

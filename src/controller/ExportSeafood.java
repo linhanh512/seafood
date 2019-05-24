@@ -129,7 +129,7 @@ public class ExportSeafood implements Comparable {
 	  format.parse(date);
 	  
 	  return date;
-}
+  }
 
 // setter methods
   public void setSeafood(Seafood s) {

@@ -24,7 +24,10 @@ import domainapp.basics.model.query.QueryToolKit;
 import domainapp.basics.model.query.Expression.Op;
 import domainapp.basics.modules.report.model.meta.Output;
 import controller.ExportSeafood;
-import model.Customer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 
 /**
  * @overview represent a report about export seafood by date
@@ -69,9 +72,10 @@ public class ExportSeafoodByDateReport {
 	*/
 	@DOpt(type=DOpt.Type.ObjectFormConstructor)
 	@DOpt(type=DOpt.Type.RequiredConstructor)
-	public ExportSeafoodByDateReport (@AttrRef("date") String date) throws NotPossibleException, DataSourceException {
+	public ExportSeafoodByDateReport (@AttrRef("date") String date) throws NotPossibleException, DataSourceException,
+	ParseException {
 		this.id = ++idCounter;
-		this.date = date;
+		this.date = checkDate(date);
 		doReportQuery();
 	}
 	
@@ -96,6 +100,14 @@ public class ExportSeafoodByDateReport {
 	    doReportQuery();
 	}
 	
+	private String checkDate(String date) throws ParseException  {
+		  DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		  format.setLenient(false);
+		  format.parse(date);
+		  
+		  return date;
+	  }
+
 	/**
 	* This method is invoked when the report input has be set by the user. 
 	* 
