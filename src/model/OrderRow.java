@@ -55,9 +55,9 @@ public class OrderRow implements Comparable{
 	private StateHistory<String, Object> stateHist;
 	
 	@DAttr(name="table",type=Type.Domain,optional=true)
-	@DAssoc(ascName="table-has-orders",role="order",
-	ascType=AssocType.One2One, endType=AssocEndType.One,
-	associate=@Associate(type=OrderTable.class,cardMin=1,cardMax=1))
+	@DAssoc(ascName="rows-has-tab",role="rows",
+	ascType=AssocType.One2Many, endType=AssocEndType.Many,
+	associate=@Associate(type=OrderTable.class,cardMin=1,cardMax=1),dependsOn = true)
 	private OrderTable table;
 	
 	//constructor

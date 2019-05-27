@@ -2,8 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 import domainapp.basics.exceptions.ConstraintViolationException;
 import domainapp.basics.model.meta.AttrRef;
 import domainapp.basics.model.meta.DAssoc;
@@ -32,7 +31,6 @@ public abstract class Customer {
 	public static final String A_address = "address";
 	public static final String A_email = "email";
 	public static final String A_rptCustomerByName = "rptCustomerByName";
-	public static final String A_bill = "bill";
 
 	// attributes of customers
 	@DAttr(name = A_id, id = true, type = Type.String, auto = true, length = 6, mutable = false, optional = false)
@@ -47,17 +45,19 @@ public abstract class Customer {
 	private String phone;
 
 	@DAttr(name = A_address, type = Type.Domain, length = 20, optional = true)
-	@DAssoc(ascName = "customer-has-country", role = "customer", ascType = AssocType.One2One, endType = AssocEndType.One, associate = @Associate(type = Country.class, cardMin = 1, cardMax = 1))
+	@DAssoc(ascName = "customer-has-country", role = "customer", 
+	ascType = AssocType.One2One, endType = AssocEndType.One, 
+	associate = @Associate(type = Country.class, cardMin = 1, cardMax = 1))
 	private Country address;
-
-	@DAttr(name = A_email, type = Type.String, length = 30, optional = false)
-	private String email;
 	
-	@DAttr(name=A_bill,type=Type.Domain,serialisable=false)
+	@DAttr(name="bill",type=Type.Domain,serialisable=false)
 	@DAssoc(ascName="bill-has-customer",role="customer",
-	ascType=AssocType.One2Many, endType=AssocEndType.Many,
+	ascType=AssocType.One2Many, endType=AssocEndType.One,
 	associate=@Associate(type=Seafood.class,cardMin=1,cardMax=MetaConstants.CARD_MORE))
 	private Collection<SeafoodBill> bills;
+	
+	@DAttr(name = A_email, type = Type.String, length = 30, optional = false)
+	private String email;
 
 	@DAttr(name = A_rptCustomerByName, type = Type.Domain, serialisable = false,
 			// IMPORTANT: set virtual=true to exclude this attribute from the object state
@@ -79,25 +79,24 @@ public abstract class Customer {
 		this(null, name, phone, address, email,bills);
 	}
 	
-	@DOpt(type = DOpt.Type.ObjectFormConstructor)
+	@DOpt(type = DOpt.Type.DataSourceConstructor)
 	public Customer(@AttrRef("id") String id,@AttrRef("name") String name, @AttrRef("phone") String phone, @AttrRef("address") Country address,
 			@AttrRef("email") String email) {
 		this(id, name, phone, address, email,null);
 	}
 	
 	// a shared constructor that is invoked by other constructors
-	@DOpt(type = DOpt.Type.DataSourceConstructor)
 	public Customer(@AttrRef("id") String id, @AttrRef("name") String name, @AttrRef("phone") String phone,
 			@AttrRef("address") Country address, @AttrRef("email") String email, 
-			@AttrRef("bill") Collection<SeafoodBill> bills) throws ConstraintViolationException {
+			@AttrRef("bill") Collection<SeafoodBill> bill) throws ConstraintViolationException {
 		// generate an id
-		this.id = nextID(id);
+			this.id = nextID(id);
 		// assign other values
 			this.name = name;
 			this.phone = phone;
 			this.address = address;
 			this.email = email;
-			this.bills = new ArrayList<>();
+			bills = new ArrayList<>();
 			
 	}
 
@@ -122,11 +121,14 @@ public abstract class Customer {
 		this.email = email;
 	}
 
-	
-	public void setBill(Collection<SeafoodBill> bill) {
+	@DOpt(type = DOpt.Type.LinkAdderNew)
+	public void setNewSeafoodBill(Collection<SeafoodBill> bill) {
+		this.bills = bill;
+		// do other updates here (if needed)
+	}
+	public void setSeafoodBill(Collection<SeafoodBill> bill) {
 		this.bills = bill;
 	}
-
 
 	// getter methods
 	public String getId() {
@@ -148,11 +150,10 @@ public abstract class Customer {
 	public String getEmail() {
 		return email;
 	}
-
-	
-	public Collection<SeafoodBill> getBill(){
+	public Collection<SeafoodBill> getSeafoodBill() {
 		return bills;
 	}
+
 
 	// override toString
 	/**

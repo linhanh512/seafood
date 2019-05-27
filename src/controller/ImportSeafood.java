@@ -16,7 +16,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
+import model.Country;
 import model.Customer;
+import model.Preserver;
 import model.Seafood;
 import model.reports.ImportSeafoodByDateReport;
 
@@ -31,6 +33,7 @@ public class ImportSeafood implements Comparable {
 	
   public static final String A_Id = "id";
   public static final String A_Customer = "customer";
+  public static final String A_Preserver = "preserver";
   public static final String A_Quantity = "quantity";
   public static final String A_Price = "price";
   public static final String A_Date = "date";
@@ -48,7 +51,13 @@ public class ImportSeafood implements Comparable {
     ascType = AssocType.One2Many, endType = AssocEndType.Many, 
     associate = @Associate(type = Seafood.class, cardMin = 1, cardMax = 1), dependsOn = true)
   private Seafood seafood;
-
+  
+  @DAttr(name = A_Preserver, type = Type.Domain, length = 20, optional = false)
+  @DAssoc(ascName = "imSeafood-has-preser", role = "imSeafood", 
+  ascType = AssocType.One2Many, endType = AssocEndType.Many, 
+  associate = @Associate(type = Country.class, cardMin = 1, cardMax = 1),dependsOn = true)
+  private Preserver preserver;
+  
   @DAttr(name = A_Customer, type = Type.Domain, length = 5, optional = false)
   @DAssoc(ascName = "customer-has-import", role = "import", 
     ascType = AssocType.One2Many, endType = AssocEndType.Many, 
@@ -74,12 +83,6 @@ public class ImportSeafood implements Comparable {
 			// (avoiding the view having to load this attribute's value from data source)
 			virtual = true)
   private ImportSeafoodByDateReport rptImportSeafoodByDate;
-  
-  //@DAttr(name = A_rptImportSeafoodByPrice, type = Type.Domain, serialisable = false,
-			// IMPORTANT: set virtual=true to exclude this attribute from the object state
-			// (avoiding the view having to load this attribute's value from data source)
-			//virtual = true)
-  //private ImportSeafoodByPriceReport rptImportSeafoodByPrice;
 
   // v2.6.4.b
   private StateHistory<String, Object> stateHist;
@@ -88,27 +91,29 @@ public class ImportSeafood implements Comparable {
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   @DOpt(type=DOpt.Type.RequiredConstructor)
   public ImportSeafood(@AttrRef("seafood") Seafood s, 
-      @AttrRef("customer") Customer m) throws ConstraintViolationException, ParseException {
-    this(null, s, m, 0.0, 0.0,null);
+      @AttrRef("customer") Customer m, @AttrRef("preserver") Preserver p) throws ConstraintViolationException, ParseException {
+    this(null, s, m,p, 0.0, 0.0,null);
   }
 
   @DOpt(type=DOpt.Type.ObjectFormConstructor)
   public ImportSeafood(@AttrRef("seafood") Seafood s, 
-      @AttrRef("customer") Customer m, 
+      @AttrRef("customer") Customer m,
+      @AttrRef("preserver") Preserver p,
       @AttrRef("quantity") Double quantity, 
       @AttrRef("price") Double price,
       @AttrRef("date") String date)
       throws ConstraintViolationException, ParseException {
-    this(null, s, m, quantity, price,date);
+    this(null, s, m,p, quantity, price,date);
   }
 
   // @version 2.0
   @DOpt(type=DOpt.Type.DataSourceConstructor)
-  public ImportSeafood(Integer id, Seafood s, Customer m, Double quantity,
+  public ImportSeafood(Integer id, Seafood s, Customer m,Preserver p, Double quantity,
       Double price, String date) throws ConstraintViolationException, ParseException {
     this.id = nextID(id);
     this.seafood = s;
     this.customer = m;
+    this.preserver = p;
     this.quantity = (quantity != null) ? quantity.doubleValue()
         : null;
     this.price = (price != null) ? price.doubleValue() : null;
@@ -142,6 +147,9 @@ public class ImportSeafood implements Comparable {
     this.customer = m;
   }
 
+  public void setPreserver(Preserver p) {
+	  this.preserver = p;
+  }
   public void setQuantity(Double quan) {
     this.quantity = quan;
       updateTotal(); 
@@ -181,6 +189,9 @@ public class ImportSeafood implements Comparable {
 
   public Customer getCustomer() {
     return customer;
+  }
+  public Preserver getPreserver() {
+	  return preserver;
   }
 
   public Double getQuantity() {
@@ -229,9 +240,9 @@ public class ImportSeafood implements Comparable {
 
   public String toString(boolean full) {
     if (full)
-      return "Enrolment(" + seafood + "," + customer + ")";
+      return "Import(" + seafood + "," + customer+"," + preserver+ ")";
     else
-      return "Enrolment(" + getId() + "," + seafood.getId() + ","
+      return "Import(" + getId() + "," + seafood.getId() + ","
           + customer.getId() + ")";
   }
 
@@ -299,37 +310,6 @@ public class ImportSeafood implements Comparable {
     }
   }
 
-  // private static int nextID(Integer currID) {
-  // if (currID == null) { // generate one
-  // idCounter++;
-  // return idCounter;
-  // } else { // update
-  // // int num = currID.intValue();
-  // //
-  // // if (num > idCounter)
-  // // idCounter=num;
-  // setIdCounter(currID);
-  //
-  // return currID;
-  // }
-  // }
-  //
-  // /**
-  // * This method is required for loading this class metadata from storage
-  // *
-  // * @requires
-  // * id != null
-  // * @effects
-  // * update <tt>idCounter</tt> from the value of <tt>id</tt>
-  // */
-  // public static void setIdCounter(Integer id) {
-  // if (id != null) {
-  // int num = id.intValue();
-  //
-  // if (num > idCounter)
-  // idCounter=num;
-  // }
-  // }
 
   // implements Comparable interface
   public int compareTo(Object o) {

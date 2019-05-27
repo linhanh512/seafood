@@ -64,7 +64,7 @@ public class Country {
 		this(null, name, null, null);
 	}
 
-	private Country(Integer id, String cityName, Collection<ForeignSeafood> fseafoods, Collection<Customer> customer) {
+	private Country(Integer id, String cityName, Collection<ForeignSeafood> fseafood, Collection<Customer> customer) {
 		this.id = nextId(id);
 		this.name = cityName;
 		fseafoods = new ArrayList<>();

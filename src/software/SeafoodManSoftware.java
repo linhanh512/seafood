@@ -11,6 +11,7 @@ import model.DomesticSeafood;
 import model.ForeignSeafood;
 import model.OrderRow;
 import model.OrderTable;
+import model.Preserver;
 import model.Purchaser;
 import model.Seafood;
 import model.SeafoodBill;
@@ -40,9 +41,10 @@ public class SeafoodManSoftware extends DomainAppToolSoftware {
 	  Seafood.class,
       DomesticSeafood.class,
       ForeignSeafood.class,
-      Country.class, 
-
+      Country.class,
+      Preserver.class,
       SeafoodBill.class,
+      
       //customer
       Customer.class,
       Purchaser.class,
@@ -57,9 +59,7 @@ public class SeafoodManSoftware extends DomainAppToolSoftware {
       
       // reports
       ExportSeafoodByDateReport.class,
-      //ExportSeafoodByPriceReport.class,
       ImportSeafoodByDateReport.class,
-      //ImportSeafoodByPriceReport.class,
       SeafoodByNameReport.class,
       CustomerByNameReport.class
   };
