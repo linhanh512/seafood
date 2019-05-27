@@ -4,7 +4,6 @@ import controller.ExportSeafood;
 import controller.ImportSeafood;
 import domainapp.basics.exceptions.NotPossibleException;
 import domainapp.basics.software.DomainAppToolSoftware;
-
 import model.Country;
 import model.Customer;
 import model.DomesticSeafood;
@@ -17,7 +16,6 @@ import model.Seafood;
 import model.SeafoodBill;
 import model.Seller;
 import model.TypeOfSeafood;
-
 import model.reports.ExportSeafoodByDateReport;
 import model.reports.ImportSeafoodByDateReport;
 import model.reports.CustomerByNameReport;

@@ -10,8 +10,13 @@ import domainapp.basics.model.meta.DAssoc.AssocEndType;
 import domainapp.basics.model.meta.DAssoc.AssocType;
 import domainapp.basics.model.meta.DAssoc.Associate;
 import domainapp.basics.model.meta.DAttr.Type;
-import domainapp.basics.util.Tuple;
 
+/**
+ * @overview
+ * a bill includes customer, order table
+ * @author Do Thi Thuy Linh
+ *
+ */
 @DClass(schema = "seafoodman")
 public class SeafoodBill {
 

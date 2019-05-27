@@ -25,7 +25,7 @@ import domainapp.basics.util.Tuple;
  * @author Tung NT
  *
  */
-@DClass(schema="courseman")
+@DClass(schema="seafoodman")
 public class Preserver {
   
   @DAttr(name="id",id=true,auto=true,length=3,mutable=false,optional=false,type=Type.Integer)
@@ -48,7 +48,7 @@ public class Preserver {
 	      ascType=AssocType.One2Many,endType=AssocEndType.One,
 	      associate=@Associate(type=ImportSeafood.class,cardMin=0,cardMax=30))
   private Collection<ImportSeafood> SeafoodLists;
-  private int enrolmentCount;
+  private int importCount;
   
   // from object form: Student is not included 
   @DOpt(type = DOpt.Type.ObjectFormConstructor)
@@ -76,7 +76,7 @@ public class Preserver {
     this.name = name;
     imSeafoods = new ArrayList<>();
     SeafoodLists = new ArrayList<>();
-    enrolmentCount = 0;
+    importCount = 0;
    
   }
   
@@ -149,7 +149,7 @@ public class Preserver {
   public boolean addNewEnrolment(ImportSeafood e) {
 	  SeafoodLists.add(e);
     
-    enrolmentCount++;
+    importCount++;
     
     
     // no other attributes changed (average mark is not serialisable!!!)
@@ -170,7 +170,7 @@ public class Preserver {
   @DOpt(type=DOpt.Type.LinkAdderNew)
   public boolean addNewEnrolment(Collection<ImportSeafood> enrols) {
 	  SeafoodLists.addAll(enrols);
-    enrolmentCount+=enrols.size();
+    importCount+=enrols.size();
     return false; 
   }
   @DOpt(type=DOpt.Type.LinkRemover)
@@ -178,13 +178,13 @@ public class Preserver {
   public boolean removeEnrolment(ImportSeafood e) {
     boolean removed = SeafoodLists.remove(e);
     if (removed) {
-      enrolmentCount--;     
+      importCount--;     
     }
     return false; 
   }
   public void setEnrolments(Collection<ImportSeafood> en) {
 	    this.SeafoodLists = en;
-	    enrolmentCount = en.size();
+	    importCount = en.size();
   }
   public Collection<ImportSeafood> getEnrolments() {
 	    return SeafoodLists;
@@ -192,13 +192,13 @@ public class Preserver {
 
   @DOpt(type=DOpt.Type.LinkCountGetter)
   public Integer getEnrolmentsCount() {
-    return enrolmentCount;
+    return importCount;
     //return enrolments.size();
   }
 
   @DOpt(type=DOpt.Type.LinkCountSetter)
   public void setEnrolmentsCount(int count) {
-    enrolmentCount = count;
+    importCount = count;
   }
   @Override
   public String toString() {
