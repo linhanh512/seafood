@@ -82,7 +82,7 @@ public class OrderTable {
 	    OrderRowCount = 0;
 	    
 	  }
-
+	  ///valionasxxz
 	  @DOpt(type=DOpt.Type.Setter)
 	  public void setName(String name) {
 	    this.name = name;
