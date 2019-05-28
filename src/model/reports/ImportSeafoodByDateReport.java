@@ -51,7 +51,7 @@ public class ImportSeafoodByDateReport {
   @DAttr(name="importSeafoods",type=Type.Collection,optional=false, mutable=false,
       serialisable=false,filter=@Select(clazz=ImportSeafood.class, 
       attributes={ImportSeafood.A_Id, ImportSeafood.A_Quantity, ImportSeafood.A_Price, ImportSeafood.A_Date, 
-    		  ImportSeafood.A_Total,ImportSeafood.A_Customer, ImportSeafood.A_rptImportSeafoodByDate}),derivedFrom={"date"})
+    		  ImportSeafood.A_Total,ImportSeafood.A_Customer,ImportSeafood.A_Preserver, ImportSeafood.A_rptImportSeafoodByDate}),derivedFrom={"date"})
   @DAssoc(ascName="import-seafood-by-date-report-has-import-seafood",role="report",
       ascType=AssocType.One2Many,endType=AssocEndType.One,
     associate=@Associate(type=ImportSeafood.class,cardMin=0,cardMax=MetaConstants.CARD_MORE))
